@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&family=Righteous&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-color:#091057;
+    --txt-color: #CBDCEB;
+    --pri-color: #a9d0ff;
+    --sec-color: #F3F3E0;
+    --thi-color: #133E87;
+    --fou-color:  #0e316de1;
+    --fif-color: yellow;
+    --six-color: cyan;
+    --sev-color: aquamarine;  
+    --eig-color: white;  
+    --gradient-1:  linear-gradient(45deg, #0c3d86, #1564b3, #3483c4);
+    --gradient-2:linear-gradient(45deg,#3483c4,#1564b3,#0c3d86);
+    --font-1-family: "DynaPuff", system-ui;
+    --font-2-family:"Righteous";
+  }
+
+.top-y{
+    display: flex;
+    background: var(--gradient-2);
+    height: 15%;
+    width: 100%;
+}
+.t-heading-y{
+    flex-basis: 50%;
+    display: flex;
+    justify-content: flex-start;
+    margin: 20px 50px;
+    font-size: 50px;
+    font-family: var(--font-2-family);
+    color: var(--sev-color);
+}
+.bottom-y{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('./assets/shieldlogo.jpeg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    flex-wrap: wrap;
+    height: 85%;
+    width: 100%;
+}
+.t-buy-all-btn-y{
+    margin: 20px 50px;
+    flex-basis: 50%;
+    display: flex;
+    justify-content: end;
+ 
+}
+.buy-all-btn-y{
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 50px;
+    font-family: var(--font-1-family);
+    background-color: var(--sec-color);
+    color: var(--bg-color);
+}
+.b-course-card-y{
+    width: 350px;
+    margin: 30px;
+    margin-top: 0px;
+    padding: 20px;
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: var(--gradient-1);
+    border-radius: 50px;
+    border: 2px solid var(--sec-color);
+    font-family: var(--font-1-family);
+}
+.b-course-photo-y{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.b-course-heading-y{
+    font-size: 30px;
+    color: var(--six-color);
+}
+.bcc-btns-y{
+    margin: 10px 0;
+    display: flex;
+    gap: 50px;
+}
+.bccb-buy-y, .bccb-remove-y {
+    font-size: 20px; 
+    padding: 8px;
+    border-radius: 50px; 
+    font-family: var(--font-1-family);
+    background-color: var(--sec-color);
+    color: var(--bg-color);
+}
+.bcp-txt-y{
+    font-size: 45px;
+    color: var(--sec-color);
+}
+.bcr-txt-y{
+    color: var(--fif-color);
+}
+.bcl-txt-y{
+    color: var(--pri-color);
+}
+.bci-txt-y{
+    color: var(--pri-color);
+}
+.bpc-txt-y{
+    color: var(--sec-color);
+    margin: 15px 2px;
+}
