@@ -1,0 +1,50 @@
+<head>
+    <link rel="stylesheet" href="/styles/course.css">
+</head>
+
+<div class="courselayout-y">
+    <div class="side-bar-y">
+        <div class="overview-y">Overview</div>
+        <% sections.forEach(function(section) { %>
+            <div class="section"><%= section %></div>
+        <% }); %>
+    </div>
+    
+    <div class="main-content-y">
+        <div class="left-main-content-y">
+            <div class="lfmc-2-y">
+                <div class="lfc-heading-y">
+                    <p><%= course.title %></p>
+                </div>
+                <div class="lfc-subheading-y">
+                    <p><%= course.subtitle %></p>
+                </div>
+                <div class="lfc-rating-y">
+                    <p>Rating: <%= course.rating %></p>
+                </div>
+                <div class="lfc-instructor-y">
+                    <p>Instructor: <%= course.instructor %></p>
+                </div>
+                <div class="lfc-level-y">
+                    <p>Level: <%= course.level %></p>
+                </div>
+                <div class="lfc-description-y">
+                    <p><%= course.description %></p>    
+                </div>
+            </div>
+        </div>
+        <div class="right-main-content-y">
+            <div class="rfc-main-2-y">
+                <div class="rfc-photo-y">
+                    <img src="<%= course.imageUrl %>" alt="" width="300px">
+                </div>
+                <div class="rfc-price-y">$<%= course.price %></div>
+                <div class="rfc-btn-y">
+                    <button class="rfc-cart">Add to Cart</button>
+                    <button class="rfc-wishlist">Add to Wishlist</button>
+                    <button class="rfc-buy">Buy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
