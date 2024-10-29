@@ -1,0 +1,41 @@
+<%- include("partials/header.ejs") %>
+
+<div class="top-y">
+    <div class="t-heading-y">
+        <p class="my-cart-y-txt">My Wishlist</p>
+    </div>
+    <div class="t-buy-all-btn-y">
+        <button class="buy-all-btn-y">Go to Cart</button>
+    </div>
+</div>
+
+<div class="bottom-y">
+    <% wishlistItems.forEach(function(item) { %>
+        <div class="b-course-card-y">
+            <div class="b-course-photo-y">
+                <img src="<%= item.imageUrl %>" alt="Course Image" width="300px" class="bc-pic-y">
+            </div>
+            <div class="b-course-heading-y">
+                <p class="bch-txt-y">
+                    <%= item.title %>
+                </p>
+            </div>
+            <div class="b-course-price-y">
+                <p class="bcp-txt-y">$ <%= item.price %></p>
+            </div>
+            <div class="b-course-rating-y">
+                <p class="bcr-txt-y">Rating: <%= item.rating %></p>
+            </div>
+            <div class="b-course-level-y">
+                <p class="bcl-txt-y">Level: <%= item.level %></p>
+            </div>
+            <div class="b-course-instructor-y">
+                <p class="bci-txt-y">Instructor: <%= item.instructor %></p>
+            </div>
+            <div class="bcc-btns-y">
+                <button class="bccb-buy-y">Add to Cart</button>
+                <button class="bccb-remove-y">Remove</button>
+            </div>
+        </div>
+    <% }); %>
+</div>
