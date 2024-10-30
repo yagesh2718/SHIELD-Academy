@@ -10,15 +10,17 @@
     <% myCourses.forEach(function(course) { %>
         <div class="b-course-card-y">
             <div class="b-course-photo-y">
-                <img src="<%= course.imageUrl %>" alt="Course Image" width="300px" class="bc-pic-y">
+                <a href="/courses/<%= course.id %>">
+                    <img src="<%= course.imageUrl %>" alt="Course Image" width="300px" class="bc-pic-y">
+                </a>
             </div>
             <div class="b-course-heading-y">
-                <p class="bch-txt-y">
-                    <%= course.title %>
-                </p>
+                <a href="/courses/<%= course.id %>">
+                    <p class="bch-txt-y"><%= course.title %></p>
+                </a>
             </div>
             <div class="b-course-rating-y">
-                <p class="bcr-txt-y">Rating: <%= course.rating %></p>
+                <p class="bcr-txt-y">Rating: <%= course.averageRating.toFixed(1) %></p>
             </div>
             <div class="b-course-level-y">
                 <p class="bcl-txt-y">Level: <%= course.level %></p>
@@ -29,6 +31,42 @@
             <div class="b-percent-complete-y">
                 <p class="bpc-txt-y">Percentage Completed: <%= course.percentComplete %>%</p>
             </div>
+            <div class="rating-input-y">
+                <form class="rating-form-y">
+                    <label for="rating-<%= course.id %>">Rate this course (1-5):</label>
+                    <input type="number" id="rating-<%= course.id %>" name="rating" min="1" max="5" step="1" required>
+                    <button type="submit">Submit Rating</button>
+                </form>
+            </div>
         </div>
     <% }); %>
 </div>
+
+<script>
+    document.querySelectorAll('.rating-form-y').forEach(form => {
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const input = form.querySelector('input[name="rating"]');
+            const rating = input.value;
+            const courseId = form.closest('.b-course-card-y').querySelector('.b-course-heading-y a').href.split('/').pop();
+
+            try {
+                const response = await fetch(`/courses/${courseId}/rate`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ rating })
+                });
+
+                if (response.ok) {
+                    alert('Rating submitted!');
+                    input.value = '';
+                } else {
+                    throw new Error('Failed to submit rating');
+                }
+            } catch (error) {
+                alert('Error submitting rating');
+                console.error(error);
+            }
+        });
+    });
+</script>
