@@ -119,3 +119,45 @@
     color: var(--sec-color);
     margin: 15px 2px;
 }
+.rating-input-y {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.rating-input-y label {
+    font-size: 16px;
+    color: var(--sev-color)
+}
+
+.rating-input-y input[type="number"] {
+    width: 60px;
+    padding: 5px;
+    font-size: 16px;
+    text-align: center;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+}
+
+.rating-input-y input[type="number"]:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.rating-input-y button {
+    padding: 8px 12px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: var(--font-1-family);
+}
+
+.rating-input-y button:hover {
+    background-color: #0056b3;
+}
