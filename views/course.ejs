@@ -1,12 +1,10 @@
-<head>
-    <link rel="stylesheet" href="/styles/course.css">
-</head>
+<%- include("partials/header.ejs") %>
 
 <div class="courselayout-y">
     <div class="side-bar-y">
-        <div class="overview-y">Overview</div>
+        <div class="overview-y"><a href="/courses/<%= course.id %>">Overview</a></div>
         <% sections.forEach(function(section) { %>
-            <div class="section"><%= section %></div>
+            <div class="section"><a href="/sections/<%= section.id %>"><%= section.name %></a></div>
         <% }); %>
     </div>
     
@@ -20,7 +18,7 @@
                     <p><%= course.subtitle %></p>
                 </div>
                 <div class="lfc-rating-y">
-                    <p>Rating: <%= course.rating %></p>
+                    <p>Rating: <%= averageRating.toFixed(1) %></p> 
                 </div>
                 <div class="lfc-instructor-y">
                     <p>Instructor: <%= course.instructor %></p>
@@ -40,11 +38,36 @@
                 </div>
                 <div class="rfc-price-y">$<%= course.price %></div>
                 <div class="rfc-btn-y">
-                    <button class="rfc-cart">Add to Cart</button>
-                    <button class="rfc-wishlist">Add to Wishlist</button>
-                    <button class="rfc-buy">Buy</button>
+                    <button class="rfc-cart" onclick="addToCart(<%= course.id %>)">Add to Cart</button>
+                    <button class="rfc-wishlist" onclick="addToWishlist(<%= course.id %>)">Add to Wishlist</button>
+                    <button class="rfc-buy" onclick="buyCourse(<%= course.id %>)">Buy</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    async function addToCart(courseId) {
+        const response = await fetch(`/cart/add/${courseId}`, { method: 'POST' });
+        if (response.ok) {
+            alert('Course added to cart!');
+        } else {
+            alert('Error adding course to cart');
+        }
+    }
+
+    async function addToWishlist(courseId) {
+        const response = await fetch(`/wishlist/add/${courseId}`, { method: 'POST' });
+        if (response.ok) {
+            alert('Course added to wishlist!');
+        } else {
+            alert('Error adding course to wishlist');
+        }
+    }
+
+    function buyCourse(courseId) {
+        
+        window.location.href = `/payment/${courseId}`;
+    }
+</script>
