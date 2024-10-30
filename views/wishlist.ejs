@@ -5,7 +5,9 @@
         <p class="my-cart-y-txt">My Wishlist</p>
     </div>
     <div class="t-buy-all-btn-y">
-        <button class="buy-all-btn-y">Go to Cart</button>
+        <a href="/cart">
+            <button class="buy-all-btn-y">Go to Cart</button>
+        </a>
     </div>
 </div>
 
@@ -13,12 +15,14 @@
     <% wishlistItems.forEach(function(item) { %>
         <div class="b-course-card-y">
             <div class="b-course-photo-y">
-                <img src="<%= item.imageUrl %>" alt="Course Image" width="300px" class="bc-pic-y">
+                <a href="/courses/<%= item.id %>">
+                    <img src="<%= item.imageUrl %>" alt="Course Image" width="300px" class="bc-pic-y">
+                </a>
             </div>
             <div class="b-course-heading-y">
-                <p class="bch-txt-y">
-                    <%= item.title %>
-                </p>
+                <a href="/courses/<%= item.id %>">
+                    <p class="bch-txt-y"><%= item.title %></p>
+                </a>
             </div>
             <div class="b-course-price-y">
                 <p class="bcp-txt-y">$ <%= item.price %></p>
@@ -33,9 +37,46 @@
                 <p class="bci-txt-y">Instructor: <%= item.instructor %></p>
             </div>
             <div class="bcc-btns-y">
-                <button class="bccb-buy-y">Add to Cart</button>
-                <button class="bccb-remove-y">Remove</button>
+                <button class="bccb-buy-y" onclick="addToCart(<%= item.id %>)">Add to Cart</button>
+                <button class="bccb-remove-y" onclick="removeFromWishlist(<%= item.id %>)">Remove</button>
             </div>
         </div>
     <% }); %>
 </div>
+
+<script>
+    async function addToCart(courseId) {
+        try {
+            const response = await fetch(`/cart/add/${courseId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            if (response.ok) {
+                alert('Course added to cart!');
+            } else {
+                alert('Failed to add course to cart');
+            }
+        } catch (error) {
+            console.error('Error adding course to cart:', error);
+            alert('Error adding course to cart');
+        }
+    }
+
+    async function removeFromWishlist(courseId) {
+        try {
+            const response = await fetch(`/wishlist/remove/${courseId}`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            if (response.ok) {
+                alert('Course removed from wishlist');
+                location.reload();
+            } else {
+                alert('Failed to remove course from wishlist');
+            }
+        } catch (error) {
+            console.error('Error removing course from wishlist:', error);
+            alert('Error removing course from wishlist');
+        }
+    }
+</script>
