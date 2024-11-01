@@ -1,0 +1,119 @@
+:root {
+    --header-background-color: #133E87;
+    --text-color: aliceblue;
+    --navbar-background-color: #133E87;
+    --navbar-hover-background-color: #608BC1;
+    --font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    --text-color: #e0e0e0;
+    --accent-color: #007acc;
+    --dropdown-background: #05052f;
+    --dropdown-border: #333;
+    --profile-border: #444;
+}
+
+.headerv-v {
+    background-color: var(--header-background-color);
+    width: 100%;
+    height: 90px;
+    color: var(--text-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#logo-v {
+    height: 70px;
+    width: 70px;
+    margin: 10px 10px;
+}
+
+.navbar-v {
+    width: 80%;
+    height: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.navbar-v ul {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    list-style: none;
+}
+
+.navbar-v li {
+    margin: 15px;
+    width: 150px;
+    height: 30px;
+    background: var(--navbar-background-color);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    font-size: 1.25rem;
+    font-family: var(--font-family);
+    flex-wrap: wrap;
+}
+
+.navbar-v a {
+    text-decoration: none;
+}
+
+.navbar-v li:hover {
+    transform: scale(1.1);
+    background-color: var(--navbar-hover-background-color);
+    transition: 200ms;
+}
+
+.profilev-v {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+}
+
+.profilev-v:hover {
+    background-color: var(--navbar-hover-background-color);
+    box-shadow: inset;
+}
+
+.profilev-v img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+/* Profile dropdown styling */
+.profile-dropdown-v {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: var(--dropdown-background);
+    color: var(--text-color);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    border: 1px solid var(--dropdown-border);
+    padding: 15px;
+    width: 220px;
+    z-index: 1000;
+}
+
+.profile-dropdown-v div {
+    margin: 8px 0;
+}
+
+.profile-dropdown-v div strong {
+    color: var(--accent-color);
+}
+
+/* Hover effect for dropdown items */
+.profile-dropdown-v div:hover {
+    color: var(--accent-color);
+}
