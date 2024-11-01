@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/styles/home.css">
+</head>
+<body>
+    <%- include("header-v.ejs") %>
+    
+    <div class="banner-v">
+        <img src="/images/nickfury.png" alt="Nick Fury">
+        <h1>Empowering agents and heroes through elite training and knowledge. Join S.H.I.E.L.D. Training Academy—your journey to excellence starts here</h1>
+    </div>
+    
+    <div class="bg-v">
+        <div class="search-v">
+            <div class="sr-v">
+                <input type="search" placeholder="search courses">
+                <img src="/images/search.png" class="srbtn-v" alt="Search button"> 
+            </div>
+        </div>
+        
+        <div class="catv-v">
+            <ul>
+                <li data-category="all">All Courses</li> 
+                <li data-category="combat">Combat</li>
+                <li data-category="cyber">Cybersecurity</li>
+                <li data-category="weapons">Weapons</li>
+                <li data-category="leadership">Leadership</li>
+                <li data-category="medical">Medical</li>
+            </ul>
+        </div>
+        
+        <div class="courses-v" id="courses-container-v"></div>
+    </div>
+   
+    <%- include("footer-v.ejs") %>
+    <script src='/scripts/main.js'></script>
+</body>
+</html>
