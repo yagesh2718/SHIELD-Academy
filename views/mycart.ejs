@@ -1,45 +1,53 @@
-<%- include("partials/header.ejs") %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/styles/mycart.css"> 
+</head>
+<body>
+
+<%- include('partials/header') %>
 
 <div class="top-y">
     <div class="t-heading-y">
         <p class="my-cart-y-txt">My Cart</p>
     </div>
     <div class="t-buy-all-btn-y">
-        <form action="/checkout" method="POST">
-            <button type="submit" class="buy-all-btn-y">Checkout</button>
-        </form>
+        <button class="buy-all-btn-y">Checkout</button>
     </div>
 </div>
 
 <div class="bottom-y">
-    <% courses.forEach(function(course) { %>
+    <% cartItems.forEach(item => { %>
         <div class="b-course-card-y">
             <div class="b-course-photo-y">
-                <a href="/courses/<%= course.id %>"><img src="<%= course.imageUrl %>" alt="Course Image" width="300px" class="bc-pic-y"></a>
+                <a href="/course/<%= item.id %>"> 
+                    <img src="data:image/jpeg;base64,<%= item.imageData.toString('base64') %>" alt="" width="300px" class="bc-pic-y">
+                </a>
             </div>
             <div class="b-course-heading-y">
-                <a href="/courses/<%= course.id %>"><p class="bch-txt-y"><%= course.title %></p></a>
+                <a href="/course/<%= item.id %>">
+                    <p class="bch-txt-y"><%= item.title %></p>
+                </a>
             </div>
             <div class="b-course-price-y">
-                <p class="bcp-txt-y">$ <%= course.price %></p>
+                <p class="bcp-txt-y">$ <%= item.price %></p>
             </div>
             <div class="b-course-rating-y">
-                <p class="bcr-txt-y">Rating: <%= averageRating.toFixed(1) %></p>
+                <p class="bcr-txt-y">Rating: <%= item.rating %></p>
             </div>
             <div class="b-course-level-y">
-                <p class="bcl-txt-y">Level: <%= course.level %></p>
+                <p class="bcl-txt-y">Level: <%= item.level %></p>
             </div>
             <div class="b-course-instructor-y">
-                <p class="bci-txt-y">Instructor: <%= course.instructor %></p>
+                <p class="bci-txt-y">Instructor: <%= item.instructor %></p>
             </div>
             <div class="bcc-btns-y">
-                <form action="/cart/remove/<%= course.id %>" method="POST" style="display:inline;">
-                    <button type="submit" class="bccb-remove-y">Remove</button>
-                </form>
-                <form action="/checkout" method="POST" style="display:inline;">
-                    <button type="submit" class="bccb-buy-y">Buy</button>
-                </form>
+                <button class="bccb-buy-y">Buy</button>
+                <button class="bccb-remove-y">Remove</button>
             </div>
         </div>
-    <% }); %>
+    <% }) %>
 </div>
+
+</body>
+</html>
