@@ -1,0 +1,35 @@
+<head>
+    <link rel="stylesheet" href="/styles/sectionasins.css"> 
+</head>
+<body>
+    <%- include('partials/header') %>
+
+<div class="section-view-y">
+    <div class="side-bar-y">
+        <div class="overview-y course-part-y">Overview</div>
+        <% sections.forEach(section => { %>
+            <div class="section course-part-y"><%= section.title %></div>
+        <% }) %>
+    </div>
+    <div class="container-y">
+        <div class="container-txt-y">
+            <h1 class="title-y"><%= course.title %></h1>
+            <p class="description-y"><%= course.description %></p>
+        </div>
+        <a href="/download/pdf/<%= course.pdfId %>" class="download-button-y" target="_blank">Download PDF</a>
+        
+        <div class="video-container-y">
+            <h2>Watch Lecture:</h2>
+            <video class="video-player-y" controls>
+                <source src="data:video/mp4;base64,<%= course.videoData.toString('base64') %>" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <button class="delete-section-y" style="transition: transform 0.1s; transform: scale(1);" 
+            onmousedown="this.style.transform='scale(0.9)'" 
+            onmouseup="this.style.transform='scale(1)'"
+            onmouseleave="this.style.transform='scale(1)'">Delete the Section</button>
+    </div>
+</div>
+<%- include('partials/footer') %>
+</body>

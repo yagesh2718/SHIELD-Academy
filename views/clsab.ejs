@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/styles/clsbb.css">
+</head>
+<body>
+    <%- include('partials/header') %>
+<div class="courselayout-y">
+    <div class="side-bar-y">
+        <div class="overview-y course-part-y">Overview</div>
+        <% sections.forEach(section => { %>
+            <div class="section course-part-y"><%= section.title %></div>
+        <% }) %>
+    </div>
+    
+    <div class="main-content-y">
+        <div class="left-main-content-y">
+            <div class="lfmc-2-y">
+                <div class="lfc-heading-y">
+                    <p><%= course.title %></p>
+                </div>
+                <div class="lfc-subheading-y">
+                    <p><%= course.subheading %></p>
+                </div>
+                <div class="lfc-rating-y">
+                    <p>Rating: <%= course.rating %></p>
+                </div>
+                <div class="lfc-instructor-y">
+                    <p>Instructor: <%= course.instructor %></p>
+                </div>
+                <div class="lfc-level-y">
+                    <p>Level: <%= course.level %></p>
+                </div>
+                <div class="lfc-description-y">
+                    <p><%= course.description %></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-main-content-y">
+            <div class="rfc-main-2-y">
+                <div class="rfc-photo-y">
+                    <img src="data:image/jpeg;base64,<%= course.imageData.toString('base64') %>" alt="" width="300px">
+                </div>
+                <div class="rfc-price-y">$<%= course.price %></div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('partials/footer') %>
+</body>
+</html>

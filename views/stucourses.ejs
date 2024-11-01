@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/styles/stucourses.css"> 
+</head>
+<body>
+    <%- include('partials/header') %>
+<div class="top-y">
+    <div class="t-heading-y">
+        <p class="my-cart-y-txt">My Courses</p>
+    </div>
+</div>
+<div class="bottom-y">
+    <% myCourses.forEach(course => { %> 
+        <div class="b-course-card-y">
+            <div class="b-course-photo-y">
+                <a href="/course-overview/<%= course.id %>"> 
+                    <img src="<%= course.imageUrl %>" alt="" width="300px" class="bc-pic-y">
+                </a>
+            </div>
+            <div class="b-course-heading-y">
+                <a href="/course-overview/<%= course.id %>" class="course-title-y"> 
+                    <p class="bch-txt-y"><%= course.title %></p>
+                </a>
+            </div>
+            <div class="b-course-rating-y">
+                <p class="bcr-txt-y">Rating: <%= course.rating %></p>
+            </div>
+            <div class="b-course-level-y">
+                <p class="bcl-txt-y">Level: <%= course.level %></p>
+            </div>
+            <div class="b-course-instructor-y">
+                <p class="bci-txt-y">Instructor: <%= course.instructor %></p>
+            </div>
+            <div class="b-percent-complete-y">
+                <% if (course.completed) { %>
+                    <a href="/download-certificate/<%= course.id %>" class="download-certificate-y">Download Certificate</a>
+                <% } else { %>
+                    <p class="bpc-txt-y">Percentage Completed: <%= course.percentageCompleted %>%</p>
+                <% } %>
+            </div>
+            <div class="rating-input-y">
+                <label for="rating-<%= course.id %>">Rate this course (1-5):</label>
+                <input type="number" id="rating-<%= course.id %>" name="rating" min="1" max="5" step="1" required>
+                <button type="submit">Submit Rating</button>
+            </div>
+        </div>
+    <% }) %>
+</div>
+
+<div class="recommend-y">
+    <div class="r-heading-y">
+        <p>Recommendations:</p>
+    </div>
+    <div class="recommended-courses-y">
+        <% recommendedCourses.forEach(recCourse => { %> 
+            <div class="b-course-card-y">
+                <div class="b-course-photo-y">
+                    <a href="/course-overview/<%= recCourse.id %>"> <!-- Link to the course overview page -->
+                        <img src="<%= recCourse.imageUrl %>" alt="" width="300px" class="bc-pic-y">
+                    </a>
+                </div>
+                <div class="b-course-heading-y">
+                    <a href="/course-overview/<%= recCourse.id %>" class="course-title-y"> <!-- Link to the course overview page -->
+                        <p class="bch-txt-y"><%= recCourse.title %></p>
+                    </a>
+                </div>
+                <div class="b-course-price-y">
+                    <p class="bcp-txt-y">$ <%= recCourse.price %></p>
+                </div>
+                <div class="b-course-rating-y">
+                    <p class="bcr-txt-y">Rating: <%= recCourse.rating %></p>
+                </div>
+                <div class="b-course-level-y">
+                    <p class="bcl-txt-y">Level: <%= recCourse.level %></p>
+                </div>
+                <div class="b-course-instructor-y">
+                    <p class="bci-txt-y">Instructor: <%= recCourse.instructor %></p>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+</div>
+<%- include('partials/footer') %>
+</body>
+</html>

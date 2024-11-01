@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/styles/addsection.css">
+</head>
+
+<body>
+    <%- include('partials/header') %>
+    <div class="upload-part-y">
+        <div class="container-y">
+            <h1 class="up-txt-y">Upload Section</h1>
+            <form action="/upload" method="POST" enctype="multipart/form-data">
+                <div class="form-group-y">
+                    <label for="title-y">Section Title:</label>
+                    <input type="text" id="title-y" name="title" required>
+                </div>
+
+                <div class="form-group-y">
+                    <label for="description-y">Section Description:</label>
+                    <textarea id="description-y" name="description" required></textarea>
+                </div>
+
+                <div class="form-group-y">
+                    <label for="pdf_link-y">PDF Link (optional):</label>
+                    <input type="url" id="pdf_link-y" name="pdf_link">
+                </div>
+
+                <div class="form-group-y">
+                    <label for="video-y">Video File:</label>
+                    <input type="file" id="video-y" name="video" accept="video/*" required>
+                </div>
+
+                <button type="submit" class="submit-btn-y" style="transition: transform 0.1s; transform: scale(1); cursor: pointer;"
+                    onmousedown="this.style.transform='scale(0.9)'"
+                    onmouseup="this.style.transform='scale(1)'"
+                    onmouseleave="this.style.transform='scale(1)'">Add Section</button>
+            </form>
+        </div>
+    </div>
+    <%- include('partials/footer') %>
+</body>

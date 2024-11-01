@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/styles/create-course.css"> 
+</head>
+<body>
+    <%- include('partials/header') %>
+    <div class="upload-part-y">
+        <div class="container-y">
+            <h1>Create Course</h1>
+            <form action="/create-course" method="POST" enctype="multipart/form-data">
+                
+                <div class="form-group-y">
+                    <label for="courseTitle-y">Course Title:</label>
+                    <input type="text" id="courseTitle-y" name="courseTitle" value="<%= courseTitle || '' %>" required>
+                </div>
+
+                <div class="form-group-y">
+                    <label for="subheading-y">Course Subheading:</label>
+                    <input type="text" id="subheading-y" name="subheading" value="<%= subheading || '' %>" required>
+                </div>
+
+                <div class="form-group-y">
+                    <label for="description-y">Description:</label>
+                    <textarea id="description-y" name="description" required><%= description || '' %></textarea>
+                </div>
+
+                <div class="form-group-y">
+                    <label for="level-y">Level:</label>
+                    <select id="level-y" name="level" required>
+                        <option value="beginner" <%= level === 'beginner' ? 'selected' : '' %>>Beginner</option>
+                        <option value="medium" <%= level === 'medium' ? 'selected' : '' %>>Medium</option>
+                        <option value="advanced" <%= level === 'advanced' ? 'selected' : '' %>>Advanced</option>
+                    </select>
+                </div>
+
+                <div class="form-group-y">
+                    <label for="thumbnail-y">Course Thumbnail:</label>
+                    <input type="file" id="thumbnail-y" name="thumbnail" accept="image/*" required>
+                </div>
+
+                <div class="form-group-y">
+                    <label for="price-y">Price:</label>
+                    <input type="number" id="price-y" name="price" value="<%= price || '' %>" min="0" step="0.01" required>
+                </div>
+
+                <div class="form-group-y">
+                    <label for="category-y">Category:</label>
+                    <select id="category-y" name="category" required>
+                        <option value="combat" <%= category === 'combat' ? 'selected' : '' %>>Combat</option>
+                        <option value="cybersecurity" <%= category === 'cybersecurity' ? 'selected' : '' %>>Cybersecurity</option>
+                        <option value="weapons" <%= category === 'weapons' ? 'selected' : '' %>>Weapons</option>
+                        <option value="leadership" <%= category === 'leadership' ? 'selected' : '' %>>Leadership</option>
+                        <option value="medical" <%= category === 'medical' ? 'selected' : '' %>>Medical</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="submit-btn-y">Create Course</button>
+            </form>
+        </div>
+    </div>
+    <%- include('partials/footer') %>
+</body>
+</html>
