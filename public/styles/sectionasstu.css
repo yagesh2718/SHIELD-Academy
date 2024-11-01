@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&family=Righteous&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-color:#091057;
+    --txt-color: #CBDCEB;
+    --pri-color: #a9d0ff;
+    --sec-color: #F3F3E0;
+    --thi-color: #133E87;
+    --fou-color:  #0e316de1;
+    --fif-color: yellow;
+    --six-color: cyan;
+    --sev-color: aquamarine;  
+    --eig-color: white;  
+    --gradient-1:  linear-gradient(45deg, #0c3d86, #1564b3, #3483c4);
+    --gradient-2:linear-gradient(45deg,#3483c4,#1564b3,#0c3d86);
+    --font-1-family: "DynaPuff", system-ui;
+    --font-2-family:"Righteous";
+  }
+
+
+.container-y {
+    min-width: 85%;
+    min-height: 100% ;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-image: url('./assets/shieldlogo.jpeg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: var(--font-1-family);
+}
+
+.title-y {
+    font-size: 40px;
+    margin-bottom: 10px;
+    color: var(--sev-color);
+    font-family: var(--font-2-family);
+    font-weight: 500;
+}
+
+.description-y {
+    font-size: 26px;
+    color: var(--pri-color);
+}
+
+.download-button-y {
+    padding: 10px 20px;
+    background-color: var(--thi-color);
+    color: var(--sec-color);
+    text-decoration: none;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-left: 30px;
+    width: 200px;
+    text-align: center;
+}
+
+.download-button-y:hover {
+    background-color: var(--fou-color);
+}
+
+.video-container-y {
+    margin-top: 20px;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+h2{
+    margin-bottom: 30px;
+    margin-left: 30px;
+    color: var(--txt-color);
+    background: var(--gradient-1);
+    width: fit-content;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: 400;
+}
+.video-player-y {
+    width: 100%;
+    height: auto;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-left:30px ;
+}
+.container-txt-y{
+    background: var(--gradient-1);
+    padding: 20px;
+    border-radius: 20px;
+}
+.delete-section-y{
+    width: fit-content;
+    padding: 10px;
+    margin: 30px;
+    color: var(--bg-color);
+    background-color: var(--pri-color);
+    border-radius: 10px;
+    font-family: var(--font-1-family);
+}
+button:hover{
+    background-color: var(--txt-color);
+    cursor: pointer;
+}
+.side-bar-y{
+    min-width: 15%;
+    flex-basis: 15%;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--sec-color);
+    background-color: var(--fou-color);
+    background: var(--gradient-1)
+}
+.side-bar-y div{
+    
+    flex-basis: 100px;
+    border: 1px solid var(--txt-color);
+    color: var(--sec-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--font-1-family);
+}  
+.section-view-y{
+    display: flex;
+    min-height: 100%;
+    min-width: 100%;    
+}
+.side-bar-y div:hover{
+    cursor: pointer;
+    background-color: var(--gradient-2);
+}
+.course-part-y:hover{
+    background: var(--gradient-2);
+    cursor: pointer;
+}
+.course-part-y:active{
+    scale: 0.95;
+}
+label{
+    font-family: var(--font-1-family);
+    color: var(--pri-color);
+    font-size: 30px;
+    margin: 30px;
+}
+.checkbox-y{
+    scale: 2;
+    margin-right: 15px;
+    vertical-align: middle;
+}

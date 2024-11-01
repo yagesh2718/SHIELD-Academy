@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&family=Righteous&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+:root {
+    --bg-color:#091057;
+    --txt-color: #CBDCEB;
+    --pri-color: #a9d0ff;
+    --sec-color: #F3F3E0;
+    --thi-color: #133E87;
+    --fou-color:  #0e316de1;
+    --fif-color: yellow;
+    --six-color: cyan;
+    --sev-color: aquamarine;  
+    --eig-color: white;  
+    --gradient-1:  linear-gradient(45deg, #0c3d86, #1564b3, #3483c4);
+    --gradient-2:linear-gradient(45deg,#3483c4,#1564b3,#0c3d86);
+    --font-1-family: "DynaPuff", system-ui;
+    --font-2-family:"Righteous";
+  }
+.upload-part-y{
+    background-image: url('./assets/shieldlogo.jpeg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    min-height: 100vh;
+    min-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-y {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background: var(--gradient-2);
+    border: 2px solid var(--pri-color);
+    border-radius: 8px;
+    font-family: var(--font-1-family);
+}
+
+h1 {
+    text-align: center;
+    color: var(--six-color);
+    margin:20px ;
+    font-family: var(--font-2-family);
+}
+
+.form-group-y {
+    margin-bottom: 15px;
+    color: var(--sev-color);
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="url"],
+textarea,
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: var(--pri-color);
+    color: var(--bg-color);
+    font-family: var(--font-1-family);
+}
+
+textarea {
+    height: 100px;
+}
+
+.submit-btn-y {
+    background-color: var(--bg-color);
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 4px;
+    font-family: var(--font-1-family);
+}
+
+.submit-btn-y:hover {
+    background-color: var(--thi-color);
+}
+

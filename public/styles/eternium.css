@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&family=Righteous&display=swap');
+:root {
+    --bg-color:#091057;
+    --txt-color: #CBDCEB;
+    --pri-color: #a9d0ff;
+    --sec-color: #F3F3E0;
+    --thi-color: #133E87;
+    --fou-color:  #0e316de1;
+    --fif-color: yellow;
+    --six-color: cyan;
+    --sev-color: aquamarine;  
+    --eig-color: white;  
+    --gradient-1:  linear-gradient(45deg, #0c3d86, #1564b3, #3483c4);
+    --gradient-2:linear-gradient(45deg,#3483c4,#1564b3,#0c3d86);
+    --font-1-family: "DynaPuff", system-ui;
+    --font-2-family:"Righteous";
+  }
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.master-sub-y{
+    display: flex;
+    background-image: url('./assets/shieldlogo.jpeg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+.ms-left-y{
+    width: 70%;
+    font-size: 40px;
+    padding: 50px;
+}
+.ms-left-y p{
+    color: var(--six-color);
+    text-shadow: 2px 2px 2px black; 
+    text-shadow: -2px 2px 2px black; 
+    font-family: var(--font-2-family);
+    background: var(--gradient-2);
+    padding: 20px;
+    border-radius: 20px;
+}
+.ms-right-y{
+    width: 30%;
+    height: 100vh;
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px;
+}
+h1{
+    color: var(--sec-color);
+    text-shadow: 2px 2px 2px black; 
+    margin: 20px;
+    font-family: var(--font-2-family);
+}
+button{
+    font-size: 30px;
+    background-color: var(--pri-color);
+    border:none ;
+    border-radius: 10px;
+    padding: 10px;
+    font-family: var(--font-1-family);
+    margin: 20px;
+}
+button:hover{
+    background-color: var(--txt-color);
+    cursor: pointer;
+}
