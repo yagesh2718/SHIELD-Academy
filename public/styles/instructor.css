@@ -1,0 +1,155 @@
+:root {
+    --main-color: aliceblue;
+    --banner-bg-color: #040a36;
+    --ibg-bg-image: url(/images/bgimg.jpeg);
+    --your-courses-bg: linear-gradient(135deg, rgba(13, 27, 42, 0.9), rgba(13, 27, 42, 0.7)), url('/images/shield-logo-dark-blue.png') no-repeat center;
+    --your-courses-title-color: #62a8e5;
+    --course-card-bg: #133E87;
+    --course-card-text-color: #c4d0e8;
+    --hover-bg-color: rgba(98, 168, 229, 0.1);
+    --accent-color:#133E87;
+}
+
+* {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    color: var(--main-color);
+}
+
+.banner-v {
+    width: 100%;
+    height: 100px;
+    background-color: var(--banner-bg-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.banner-v img {
+    width: 125px;
+    height: 100px;
+    margin-right: 20px;
+}
+
+.ibg-v {
+    background-image: var(--ibg-bg-image);
+    width: 100%;
+    height: 1000px;
+}
+
+
+
+
+.create-course-container-v {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.create-course-btn-v {
+    background-color: var(--accent-color);
+    color: var(--main-color);
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-family);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.create-course-btn-v a{
+    text-decoration: none;
+}
+
+.create-course-btn-v:hover {
+    background-color: #608BC1; /* Slightly darker shade on hover */
+    transform: translateY(-2px); /* Slightly lifts button on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.create-course-btn-v:active {
+    transform: translateY(1px); /* Gives a pressed effect when clicked */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+.your-courses-v {
+    /* background: var(--your-courses-bg); */
+    background-size: cover;
+    padding: 40px 20px;
+    text-align: center;
+    color: #ffffff;
+}
+
+.your-courses-v h2 {
+    font-size: 2.2em;
+    margin-bottom: 30px;
+    color: var(--your-courses-title-color);
+    text-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.course-list-v {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.course-card-v {
+    background: var(--course-card-bg);
+    border-radius: 8px;
+    padding: 20px;
+    width: 250px;
+    text-align: left;
+    color: var(--course-card-text-color);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    transform: translateY(0);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.course-card-v h3 {
+    color: var(--your-courses-title-color);
+    font-size: 1.4em;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+}
+
+.course-card-v p {
+    margin: 8px 0;
+    font-size: 1em;
+    position: relative;
+    z-index: 1;
+}
+
+/* Hover Effects */
+.course-card-v::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--hover-bg-color);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 0;
+}
+
+.course-card-v:hover::before {
+    opacity: 1;
+}
+
+.course-card-v:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
+
+.course-card-v:hover h3, .course-card-v:hover p {
+    color: #ffffff;
+}
