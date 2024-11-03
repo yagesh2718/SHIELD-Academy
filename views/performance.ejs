@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/styles/performance.css">
+</head>
+<body>
+    <%- include("iheader.ejs") %>
+    <div class="banner-v">
+        <img src="/images/nickfury.png">
+        <h1>Empowering agents and heroes through elite training and knowledge. Join S.H.I.E.L.D. Training Academy—your journey to excellence starts here</h1>
+    </div>
+
+    <div class="ibg-v">
+        <div class="header-v">
+            <h1>S.H.I.E.L.D. Instructor Performance Dashboard</h1>
+            <p>Welcome to the S.H.I.E.L.D. Training Academy Dashboard. Track your performance and earnings here.</p>
+        </div>
+
+<div class="pcontainer-v">
+         <!-- Dashboard -->
+         <div class="dashboard-v">
+            <!-- Total Revenue Card -->
+            <div class="revenue-card-v">
+                <h2>Total Revenue</h2>
+                <p class="revenue-amount-v">$12,345</p>
+                <small>All-time earnings</small>
+            </div>
+
+            <!-- Key Metrics -->
+            <div class="metrics-v">
+                <div class="metric-card-v">
+                    <h3>Total Enrollments</h3>
+                    <p class="metric-value-v">1,250</p>
+                </div>
+                <div class="metric-card-v">
+                    <h3>Average Rating</h3>
+                    <p class="metric-value-v">4.5 ★</p>
+                </div>
+                
+                <div class="metric-card-v">
+                    <h3>Active Courses</h3>
+                    <p class="metric-value-v">12</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="courses-v">
+        <h2></h2>
+        <div id="course-list-v" class="course-list-v">
+            <!-- Course cards will be dynamically injected here by JavaScript -->
+        </div>
+    </div>
+    
+
+
+
+
+    </div>
+    <%-  include("ifooter.ejs") %>
+    <script src="/scripts/courses.js"></script>
+    <script src="/scripts/imain.js"></script>
+</body>
+</html>
