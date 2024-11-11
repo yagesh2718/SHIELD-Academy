@@ -1,1 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instructor Home</title>
+    <link rel="stylesheet" href="/styles/instructor-home.css">
+</head>
+<body>
+    <%- include("partials/header-i.ejs") %>
+
+    <div class="banner-v">
+        <img src="/images/nick-fury-banner.png">
+        <h1>"Empower the next generation of heroes—your knowledge and skills are the foundation of their strength. Every course you create builds a future where courage, resilience, and wisdom shape a safer world. Lead boldly, inspire deeply, and watch as your legacy shapes S.H.I.E.L.D.’s finest."</h1>
+    </div>
+
+    <div class="ibg-v">
+        <section class="your-courses-v">
+            <h2>Your Courses</h2>
+            <div class="create-course-container-v">
+                <button class="create-course-btn-v">
+                    <a href="/create-course">Create New Course</a>
+                </button>
+            </div>
+
+            <!-- Course List -->
+            <div class="course-list-v" id="courseList-v">
+                <% courses.forEach(course => { %>
+                    <a href="/course-overview/<%= course.id %>" class="course-card-v"> <!-- Wrap each course item in an anchor tag -->
+                        <div class="course-item-v">
+                            <h3><%= course.title %></h3>
+                            <p><strong>Level:</strong> <%= course.level %></p>
+                            <p><strong>Price:</strong> $<%= course.price %></p>
+                        </div>
+                    </a>
+                <% }) %>
+            </div>
+            
+        </section>
+    </div>
+
+    <%- include("partials/footer-i.ejs") %>
+    <script src="/scripts/imain.js"></script>
+</body>
+</html>
 
