@@ -23,11 +23,11 @@
 .courselayout-y{
     display: flex;
     background-color: var(--bg-color);
-    background-image: url('./assets/shieldlogo.jpeg');
+    background-image: url('/images/shieldlogo.jpeg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    min-height: 100%;
+    min-height: 100vh;
     width: 100%;
 }
 
@@ -39,7 +39,7 @@
     background-color: var(--fou-color);
     background: var(--gradient-1)
 }
-.side-bar-y div{
+.side-bar-y .course-part-y{
     
     flex-basis: 100px;
     border: 1px solid var(--txt-color);
@@ -151,7 +151,7 @@ button:hover{
 button:active{
     scale: 0.9;
 }
-.side-bar-y div:hover{
+.side-bar-y .course-part-y:hover{
     cursor: pointer;
     background-color: var(--gradient-2);
 }
@@ -164,4 +164,7 @@ button:active{
 }
 .rfc-main-2-y:hover{
     background: var(--gradient-1);
+}
+a{
+    text-decoration: none;
 }
