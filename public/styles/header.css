@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&family=Righteous&display=swap');
+
+    :root {
+        --bg-color: #091057;
+        --txt-color: #CBDCEB;
+        --pri-color: #a9d0ff;
+        --sec-color: #F3F3E0;
+        --thi-color: #133E87;
+        --fou-color: #0e316de1;
+        --fif-color: yellow;
+        --six-color: cyan;
+        --sev-color: aquamarine;
+        --eig-color: white;
+        --gradient-1: linear-gradient(45deg, #0c3d86, #1564b3, #3483c4);
+        --gradient-2: linear-gradient(45deg, #3483c4, #1564b3, #0c3d86);
+        --font-1-family: "DynaPuff", system-ui;
+        --font-2-family: "Righteous";
+    }
+
+
+.headerv-v {
+    background:var(--gradient-2);
+    min-width: 100%;
+    height: 17vh;
+    color: var(--text-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-1-family);
+    font-weight: 100;
+}
+
+#logo-v {
+    height: 90px;
+    width: 90px;
+    margin: 10px 10px;
+}
+
+.navbar-v {
+    width: 80%;
+    height: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.navbar-v ul {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    list-style: none;
+}
+
+.navbar-v li {
+    margin: 15px;
+    width: 150px;
+    height: 30px;
+    background: var(--navbar-background-color);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    font-size: 1.25rem;
+    font-family: var(--font-family);
+    flex-wrap: wrap;
+}
+
+.navbar-v a {
+    text-decoration: none;
+    color: var(--sec-color);
+    font-size: 20px;
+}
+
+
+.profilev-v {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+}
+
+.profilev-v:hover {
+    background-color: var(--pri-color);
+    box-shadow: inset;
+
+}
+
+.profilev-v img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+/* Profile dropdown styling */
+.profile-dropdown-v {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: var(--bg-color);
+    color: var(--sev-color);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    border: 1px solid var(--dropdown-border);
+    padding: 15px;
+    width: fit-content;
+    z-index: 1000;
+    font-size: 17px;
+}
+
+.profile-dropdown-v div {
+    margin: 8px 0;
+}
+
+.profile-dropdown-v div strong {
+    color: var(--eig-color);
+    font-weight: 200;
+    display: inline;
+}
+
+.navbar-v a:hover{
+    color: var(--six-color);
+    transform: scale(1.1);
+    transition: 200ms;
+}

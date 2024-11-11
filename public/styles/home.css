@@ -1,0 +1,195 @@
+@import url('https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&family=Righteous&display=swap');
+:root {
+    --bg-color: #091057;
+    --txt-color: #CBDCEB;
+    --pri-color: #a9d0ff;
+    --sec-color: #F3F3E0;
+    --thi-color: #133E87;
+    --fou-color: #0e316de1;
+    --fif-color: yellow;
+    --six-color: cyan;
+    --sev-color: aquamarine;
+    --eig-color: white;
+    --gradient-1: linear-gradient(45deg, #0c3d86, #1564b3, #3483c4);
+    --gradient-2: linear-gradient(45deg, #3483c4, #1564b3, #0c3d86);
+    --font-1-family: "DynaPuff", system-ui;
+    --font-2-family: "Righteous";
+  }
+  
+  * {
+    border: 0;
+    margin: 0;
+    color: var(--text-color);
+  }
+  
+  .banner-v {
+    width: 100%;
+    height: 20vh;
+    background-color: var(--bg-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--sec-color);
+  }
+  .banner-v h1{
+    font-size: 25px;
+    width: 90%;
+    font-family: var(--font-2-family);
+    font-weight: 200;
+  }
+  
+  .banner-v img {
+    width: 10%;
+    height: 20vh;
+    margin-right: 20px;
+  }
+  
+  .bg-v {
+    background-image: url('/images/shieldlogo.jpeg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    min-height: 100vh;
+    padding-bottom: 40px;
+  }
+  
+  .catv-v ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+  }
+  
+  .catv-v li {
+    margin: 15px;
+    width: 150px;
+    height: 50px;
+    background: var(--pri-color);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 17px;
+    font-family: var(--font-1-family);
+    cursor: pointer;
+  }
+  
+  .catv-v li:hover {
+    transform: scale(1.1);
+    background-color: var(--thi-color);
+    transition: 200ms;
+    color: var(--sec-color);
+  }
+  
+  .search-v {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    height: 100px;
+  }
+  
+  .sr-v {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    border-radius: 50px;
+    background-color: white;
+    gap: 5px;
+    color: var(--primary-bg);
+  }
+  
+  input {
+    height: 50px;
+    width: 300px;
+    border: 0;
+    padding-left: 10px;
+    appearance: none;
+    outline: none;
+    background: none;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+  }
+  
+  .srbtn-v {
+    border: 0;
+    height: 28px;
+    width: 28px;
+    cursor: pointer;
+  }
+  
+  .srbtn-v:hover {
+    transform: scale(1.08);
+  }
+  
+  .courses-v {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+   
+  }
+  
+  .course-card-v {
+    width: 300px;
+    color: var(--sev-color);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s;
+    cursor: pointer;
+    background: var(--gradient-1);
+    font-family: var(--font-1-family);
+    
+  }
+  
+  .course-card-v:hover {
+    transform: translateY(-8px);
+    background: var(--gradient-2);
+  }
+  
+  .course-image-v {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+  }
+  
+  .course-content-v {
+    padding: 16px;
+  }
+  
+  .course-title-v {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+  }
+  
+  .course-instructor-v {
+    font-size: 0.9rem;
+    color: var(--sec-color);
+    margin-bottom: 12px;
+  }
+  
+  .course-rating-v {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 12px;
+  }
+  
+  .course-rating-v span {
+    font-size: 0.9rem;
+  }
+  
+  .course-price-v {
+    font-size: 1.1rem;
+  }
+  
+
+  .star-icon-v {
+    color: var(--hover-color);
+  }

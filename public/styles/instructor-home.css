@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&family=Righteous&display=swap');
+:root {
+    --bg-color: #091057;
+    --txt-color: #CBDCEB;
+    --pri-color: #a9d0ff;
+    --sec-color: #F3F3E0;
+    --thi-color: #133E87;
+    --fou-color: #0e316de1;
+    --fif-color: yellow;
+    --six-color: cyan;
+    --sev-color: aquamarine;
+    --eig-color: white;
+    --gradient-1: linear-gradient(45deg, #0c3d86, #1564b3, #3483c4);
+    --gradient-2: linear-gradient(45deg, #3483c4, #1564b3, #0c3d86);
+    --font-1-family: "DynaPuff", system-ui;
+    --font-2-family: "Righteous";
+  }
+
+* {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    color: var(--main-color);
+}
+
+.banner-v {
+    width: 100%;
+    height: 20vh;
+    background-color: var(--bg-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--sec-color);
+  }
+  .banner-v h1{
+    font-size: 25px;
+    width: 90%;
+    font-family: var(--font-2-family);
+    font-weight: 200;
+  }
+  
+  .banner-v img {
+    width: 10%;
+    height: 20vh;
+    margin-right: 20px;
+  }
+
+.ibg-v {
+    background-image: url('/images/shieldlogo.jpeg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    min-height: 100vh;
+}
+
+
+
+
+.create-course-container-v {
+    display: flex;
+   
+    margin-bottom: 20px;
+    
+
+    padding: 10px;
+    justify-content: center;
+
+}
+
+.create-course-btn-v {
+    background-color: var(--fou-color);
+    color: var(--sec-color);
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-1-family);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.create-course-btn-v a{
+    text-decoration: none;
+}
+
+.create-course-btn-v:hover {
+    background-color: var(--pri-color); 
+    transform: translateY(-2px); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    color: var(--bg-color);
+}
+
+.create-course-btn-v:active {
+    transform: translateY(1px); /* Gives a pressed effect when clicked */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+.your-courses-v {
+    
+    padding: 40px 20px;
+    text-align: center;
+    color: #ffffff;
+}
+
+.your-courses-v h2 {
+    font-size: 2.2em;
+    margin-bottom: 30px;
+    color: var(--sev-color);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+    font-family: var(--font-2-family);
+    font-weight: 400;
+}
+
+.course-list-v {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.course-card-v {
+    background: var(--gradient-2);
+    border-radius: 8px;
+    padding: 20px;
+    width: 250px;
+    text-align: left;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    transform: translateY(0);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    font-family: var(--font-1-family);
+   
+}
+
+.course-card-v h3 {
+    color: var(--six-color);
+    font-size: 1.4em;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+    font-weight: 200;
+}
+
+.course-card-v p {
+    margin: 8px 0;
+    font-size: 1em;
+    position: relative;
+    z-index: 1;
+}
+
+.course-card-v strong{
+    color: var(--sev-color);
+    font-weight: 200;
+}
+
+/* Hover Effects */
+.course-card-v::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--hover-bg-color);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 0;
+}
+
+.course-card-v:hover::before {
+    opacity: 1;
+}
+
+.course-card-v:hover {
+    background: var(--gradient-1);
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+    color: var(--eig-color);
+}
+
+.course-card-v:hover h3, .course-card-v:hover p {
+    color: #ffffff;
+}
+a{
+    text-decoration: none;
+}

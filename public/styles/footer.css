@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&family=Righteous&display=swap');
+
+:root {
+    --bg-color: #091057;
+    --txt-color: #CBDCEB;
+    --pri-color: #a9d0ff;
+    --sec-color: #F3F3E0;
+    --thi-color: #133E87;
+    --fou-color: #0e316de1;
+    --fif-color: yellow;
+    --six-color: cyan;
+    --sev-color: aquamarine;
+    --eig-color: white;
+    --gradient-1: linear-gradient(45deg, #0c3d86, #1564b3, #3483c4);
+    --gradient-2: linear-gradient(45deg, #3483c4, #1564b3, #0c3d86);
+    --font-1-family: "DynaPuff", system-ui;
+    --font-2-family: "Righteous";
+}
+
+.footer-v {
+    background-color: var(--bg-color);
+    background: var(--gradient-1);
+    color: var(--eig-color);
+    font-family: var(--font-2-family);
+}
+
+.footer-content-v {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.footer-section-v {
+    flex: 1;
+    margin: 20px;
+    min-width: 250px;
+    font-size: 15px;
+}
+
+.footer-v h2, .footer-v h3 {
+    margin-bottom: 10px;
+}
+
+.footer-v p {
+    line-height: 1.6;
+}
+
+.footer-v .links-v ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-v .links-v ul li {
+    margin-bottom: 10px;
+}
+
+.footer-v .links-v ul li a {
+    text-decoration: none;
+}
+
+.footer-v .links-v ul li a:hover {
+    text-decoration: underline;
+}
+
+.footer-v .contact-v p {
+    margin: 5px 0;
+}
+
+.footer-v .social-icons-v a {
+    font-size: 18px;
+    margin-right: 10px;
+    text-decoration: none;
+    color: var(--eig-color);
+}
+
+.footer-v .social-icons-v a:hover {
+    color: var(--six-color);
+}
+
+.footer-bottom-v {
+    text-align: center;
+    margin-top: 20px;
+    padding-top: 10px;
+    color: var(--pri-color);
+}
+.links-v a{
+    text-decoration: none;
+    color: var(--eig-color);
+}
+.links-v a:hover{
+    color: var(--txt-color);
+    color: var(--six-color);
+}
+.about-v h2{
+    font-weight: 200;
+}
+.links-v h3{
+    font-weight: 200;
+    font-size: 20px
+}
+.contact-v h3{
+    font-weight: 200;
+    font-size: 20px;
+}
+.social-v h3{
+    font-weight: 200;
+    font-size: 20px;
+}
