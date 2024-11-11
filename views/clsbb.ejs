@@ -61,10 +61,9 @@
                         <button type="submit" class="rfc-wishlist">Add to Wishlist</button>
                     </form>
                 
-                    <form action="/buy" method="POST" style="display: inline;">
                         <input type="hidden" name="course_id" value="<%= course.id %>">
-                        <button type="submit" class="rfc-buy">Buy</button>
-                    </form>
+                        <button type="submit" class="rfc-buy" id="payButton">Buy</button>
+                  
                 </div>
                 
             </div>
@@ -72,5 +71,50 @@
     </div>
 </div>
 <%- include('partials/footer') %>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  document.getElementById('payButton').onclick = async () => {
+    // Declare amount variable with a value
+    const amount = 2000; // Amount in rupees
+
+    try {
+      // Call server to create order
+      const response = await fetch('/createOrder', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount })
+      });
+      
+      // Parse response from server
+      const { orderId, amount: amountInPaise } = await response.json();
+
+      // Razorpay options
+      const options = {
+        key: '<%= key_id %>', // Key ID passed from server
+        amount: amountInPaise, // Amount in paise
+        currency: 'INR',
+        name: 'S.H.I.E.L.D Academy',
+        description: 'Purchase Description',
+        image: "https://i.pinimg.com/474x/66/a2/bd/66a2bdf40cf67368f3f18488a46c3673.jpg",
+        order_id: orderId,
+        handler: function (response) {
+          // Redirect to success page with payment ID
+          window.location.href = `/success?payment_id=${response.razorpay_payment_id}`;
+        },
+        prefill: {
+          name: 'Vivek Singh',
+          email: 'vs6189874@gmail.com',
+          contact: '7464968344',
+        },
+        theme: { color: '#0000FF' },
+      };
+
+      const rzp = new Razorpay(options);
+      rzp.open();
+    } catch (error) {
+      console.error('Error initiating payment:', error);
+    }
+  };
+</script>
 </body>
 </html>
