@@ -17,7 +17,7 @@
     <div class="bg-v">
         <div class="search-v">
             <div class="sr-v">
-                <input type="search" placeholder="search courses">
+                <input type="search" id="courseSearchInput" placeholder="Search courses" oninput="searchCourses()">
                 
                 <img src="/images/search.png" class="srbtn-v" alt="Search button"> 
             </div>
@@ -25,16 +25,30 @@
         
         <div class="catv-v">
             <ul>
-                <li data-category="all">All Courses</li> 
-                <li data-category="combat">Combat</li>
-                <li data-category="cyber">Cybersecurity</li>
-                <li data-category="weapons">Weapons</li>
-                <li data-category="leadership">Leadership</li>
-                <li data-category="medical">Medical</li>
+                <li data-category="all" onclick="filterCourses('all')">All Courses</li> 
+                <li data-category="combat" onclick="filterCourses('combat')">Combat</li>
+                <li data-category="cybersecurity" onclick="filterCourses('cybersecurity')">Cybersecurity</li>
+                <li data-category="weapons" onclick="filterCourses('weapons')">Weapons</li>
+                <li data-category="leadership" onclick="filterCourses('leadership')">Leadership</li>
+                <li data-category="medical" onclick="filterCourses('medical')">Medical</li>
             </ul>
         </div>
         
-        <div class="courses-v" id="courses-container-v"></div>
+        <div class="courses-v" id="courses-container-v">
+            <% courses.forEach(course => { %>
+                <a href="/cosbb/<%= course.id %>" class="course-card-v" data-category="<%= course.category %>" 
+                    data-title="<%= course.title.toLowerCase() %>" data-instructor="<%= course.instructor.toLowerCase() %>">
+                     <img src="<%= course.thumbnail %>" alt="" width="250px" height="150px">
+                     <h3><%= course.title %></h3>
+                     <p><strong>Category:</strong> <%= course.category %></p>
+                     <p><strong>Level:</strong> <%= course.level %></p>
+                     <p><strong>Price:</strong> $<%= course.price %></p>
+                     <p class="rating"><strong>Rating:</strong> <%= course.rating %></p>
+                     <p><strong>Instructor:</strong> <%= course.instructor %></p>
+                 </a>
+                 
+            <% }) %>
+        </div>
     </div>
    
     <%- include("partials/footer.ejs") %>
