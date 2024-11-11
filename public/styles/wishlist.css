@@ -41,7 +41,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url('./assets/shieldlogo.jpeg');
+    background-image: url('/images/shieldlogo.jpeg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -127,4 +127,10 @@ button:active{
 }
 .b-course-photo-y img{
     border-radius: 30px;
+}
+.bch-txt-y{
+    color: var(--six-color);
+}
+a{
+    text-decoration: none;
 }
