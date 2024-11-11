@@ -8,6 +8,7 @@ import session from "express-session";
 import bcrypt from "bcrypt";
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import Razorpay from 'razorpay';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -25,7 +26,14 @@ export default sessionConfig;
 
 
 const app = express();
+app.use(bodyParser.json());
 const port = 3000;
+
+const razorpayInstance = new Razorpay({
+    key_id: 'rzp_test_tdhd9eKtsQISvp', // Replace with your actual Razorpay key ID
+    key_secret: 'xjIjJAAcAE0fgILJm5ayJNjf', // Replace with your actual Razorpay key secret
+  });
+
 
 app.use(sessionConfig());
 
@@ -86,6 +94,38 @@ async function authenticateUser(email, password, role) {
         return null;
     }
   }
+
+
+ app.get('/buy-eternium', (req, res) => {
+    res.render('eternium', { key_id: 'rzp_test_tdhd9eKtsQISvp' }); // Pass the key_id to client side
+  });
+
+
+  app.post('/createOrder', async (req, res) => {
+    const { amount } = req.body; // Amount in rupees (e.g., 500 for ₹500)
+    try {
+      const order = await razorpayInstance.orders.create({
+        amount: amount * 100, // Amount in paise
+        currency: 'INR',
+      });
+      res.json({ orderId: order.id, amount: order.amount });
+    } catch (error) {
+      console.error('Error creating Razorpay order:', error);
+      res.status(500).json({ error: 'Failed to create order' });
+    }
+  });
+  
+  // Route for Payment Success page
+  app.get('/success', (req, res) => {
+    res.render('success', { paymentId: req.query.payment_id });
+  });
+  
+  // Start the server
+//   const PORT = process.env.PORT || 3000;
+//   app.listen(PORT, () => {
+//     console.log(`Server running on http://localhost:${PORT}`);
+//   });
+
   
   app.get('/', (req, res) => {
     res.redirect('/login');
