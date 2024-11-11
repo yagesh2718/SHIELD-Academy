@@ -594,7 +594,7 @@ app.get("/cosbb/:courseId", async (req, res) => {
             );
 
             const sections = sectionsResult.rows;
-            res.render("clsbb", { course, sections,user });
+            res.render("clsbb", { course, sections,user } , { key_id: 'rzp_test_tdhd9eKtsQISvp' });
         } else {
             res.status(404).send("Course not found");
         }
