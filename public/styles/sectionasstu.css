@@ -28,7 +28,7 @@
     min-height: 100% ;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-image: url('./assets/shieldlogo.jpeg');
+    background-image: url('/images/shieldlogo.jpeg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -119,7 +119,7 @@ button:hover{
     background-color: var(--fou-color);
     background: var(--gradient-1)
 }
-.side-bar-y div{
+.side-bar-y .course-part-y{
     
     flex-basis: 100px;
     border: 1px solid var(--txt-color);
@@ -134,7 +134,7 @@ button:hover{
     min-height: 100%;
     min-width: 100%;    
 }
-.side-bar-y div:hover{
+.side-bar-y .course-part-y:hover{
     cursor: pointer;
     background-color: var(--gradient-2);
 }
@@ -155,4 +155,7 @@ label{
     scale: 2;
     margin-right: 15px;
     vertical-align: middle;
+}
+a{
+    text-decoration: none;
 }
