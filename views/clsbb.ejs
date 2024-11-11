@@ -9,7 +9,7 @@
     <div class="side-bar-y">
         <div class="overview-y course-part-y">Overview</div>
         <% sections.forEach(section => { %>
-            <div class="section course-part-y"><%= section.title %> 🔒</div>
+            <div class="section course-part-y"><%= section.section_name %> 🔒</div>
         <% }) %>
     </div>
     
@@ -23,16 +23,19 @@
                     <p><%= course.subheading %></p>
                 </div>
                 <div class="lfc-rating-y">
-                    <p>Rating: <%= course.rating %></p>
+                    <p>Rating : <%= course.rating %></p>
                 </div>
                 <div class="lfc-instructor-y">
-                    <p>Instructor: <%= course.instructor %></p>
+                    <p>Instructor :  <%= course.instructor %></p>
                 </div>
                 <div class="lfc-level-y">
-                    <p>Level: <%= course.level %></p>
+                    <p>Level : <%= course.level %></p>
                 </div>
                 <div class="lfc-description-y">
-                    <p><%= course.description %></p>
+                    <p>Description : <%= course.description %></p>
+                </div>
+                <div class="lfc-description-y">
+                    <p>Category : <%= course.category %></p>
                 </div>
             </div>
         </div>
@@ -40,14 +43,30 @@
         <div class="right-main-content-y">
             <div class="rfc-main-2-y">
                 <div class="rfc-photo-y">
-                    <img src="data:image/jpeg;base64,<%= course.imageData.toString('base64') %>" alt="" width="300px">
+                    <% if (course.thumbnail) { %>
+                        <img src="<%= course.thumbnail %>" alt="Course Image" width="300px">
+                    <% } else { %>
+                        <p>No image available</p> 
+                    <% } %>
                 </div>
                 <div class="rfc-price-y">$<%= course.price %></div>
                 <div class="rfc-btn-y">
-                    <button class="rfc-cart">Add to Cart</button>
-                    <button class="rfc-wishlist">Add to Wishlist</button>
-                    <button class="rfc-buy">Buy</button>
+                    <form action="/add-to-cart" method="POST" style="display: inline;">
+                        <input type="hidden" name="course_id" value="<%= course.id %>">
+                        <button type="submit" class="rfc-cart">Add to Cart</button>
+                    </form>
+                
+                    <form action="/add-to-wishlist" method="POST" style="display: inline;">
+                        <input type="hidden" name="course_id" value="<%= course.id %>">
+                        <button type="submit" class="rfc-wishlist">Add to Wishlist</button>
+                    </form>
+                
+                    <form action="/buy" method="POST" style="display: inline;">
+                        <input type="hidden" name="course_id" value="<%= course.id %>">
+                        <button type="submit" class="rfc-buy">Buy</button>
+                    </form>
                 </div>
+                
             </div>
         </div>
     </div>
