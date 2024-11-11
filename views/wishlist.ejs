@@ -9,38 +9,54 @@
         <p class="my-cart-y-txt">My Wishlist</p>
     </div>
     <div class="t-buy-all-btn-y">
-        <button class="buy-all-btn-y">Go to Cart</button>
+        <a href="/my-cart">
+            <button class="buy-all-btn-y">Go to Cart</button>
+        </a>
     </div>
+    
 </div>
 <div class="bottom-y">
-    <% courses.forEach(course => { %>
+    <% wishlistItems.forEach(item => { %>
         <div class="b-course-card-y">
             <div class="b-course-photo-y">
-                <a href="/course/<%= course.id %>">
-                    <img src="<%= course.image %>" alt="" width="300px" class="bc-pic-y">
+                <a href="/cosbb/<%= item.id %>"> 
+                    <% if (item.thumbnail) { %>
+                        <img src="<%= item.thumbnail %>" alt="Course Image" width="300px" height="200px" class="bc-pic-y">
+                    <% } else { %>
+                        <p>No image available</p> 
+                    <% } %>
                 </a>
+                
             </div>
             <div class="b-course-heading-y">
-                <a href="/course/<%= course.id %>">
-                    <p class="bch-txt-y"><%= course.title %></p>
+                <a href="/cosbb/<%= item.id %>">
+                    <p class="bch-txt-y"><%= item.title %></p>
                 </a>
             </div>
             <div class="b-course-price-y">
-                <p class="bcp-txt-y">$ <%= course.price %></p>
+                <p class="bcp-txt-y">$ <%= item.price %></p>
             </div>
             <div class="b-course-rating-y">
-                <p class="bcr-txt-y">Rating: <%= course.rating %></p>
+                <p class="bcr-txt-y">Rating: <%= item.rating %></p>
             </div>
             <div class="b-course-level-y">
-                <p class="bcl-txt-y">Level: <%= course.level %></p>
+                <p class="bcl-txt-y">Level: <%= item.level %></p>
             </div>
             <div class="b-course-instructor-y">
-                <p class="bci-txt-y">Instructor: <%= course.instructor %></p>
+                <p class="bci-txt-y">Instructor: <%= item.instructor %></p>
             </div>
             <div class="bcc-btns-y">
-                <button class="bccb-buy-y">Add to Cart</button>
-                <button class="bccb-remove-y">Remove</button>
+                <form action="/add-to-cart" method="POST" style="display:inline;">
+                    <input type="hidden" name="course_id" value="<%= item.id %>">
+                    <button class="bccb-buy-y">Add to Cart</button>
+                </form>
+            
+                <form action="/remove-from-wishlist" method="POST" style="display:inline;">
+                    <input type="hidden" name="courseId" value="<%= item.id %>">
+                    <button class="bccb-remove-y" >Remove</button>
+                </form>
             </div>
+            
         </div>
     <% }) %>
 </div>
