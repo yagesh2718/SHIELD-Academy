@@ -21,7 +21,7 @@
     --font-2-family:"Righteous";
   }
 .upload-part-y{
-    background-image: url('./assets/shieldlogo.jpeg');
+    background-image: url('/images/shieldlogo.jpeg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
