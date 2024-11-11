@@ -25,7 +25,7 @@
 .top-y{
     display: flex;
     background: var(--gradient-2);
-    height: 15%;
+    height: 15vh;
     min-width: 100%;
 }
 .t-heading-y{
@@ -41,14 +41,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url('./assets/shieldlogo.jpeg');
+    background-image: url('/images/shieldlogo.jpeg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
     padding-top: 20px;
     padding-bottom: 20px;
     flex-wrap: wrap;
-    min-height: 85%;
+    min-height: 85vh;
     min-width: 100%;
 }
 .t-buy-all-btn-y{
@@ -129,3 +129,10 @@ button:hover{
 .bci-txt-y{
     color: var(--pri-color);
 }
+.bch-txt-y{
+    color: var(--six-color);
+}
+a {
+    text-decoration: none; /* Remove underline from all anchor tags */
+}
+
