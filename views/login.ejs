@@ -7,27 +7,28 @@
     <link rel="stylesheet" href="/styles/login.css">
 </head>
 <body>
+    <div class="login-page">
     <div class="login-container">
         <h2>Login</h2>
         <form action="/login" method="POST">
-            <!-- Role selection -->
-            <label for="role">I am a:</label>
+            <label for="role" >I am a:</label>
     <div>
-        <input type="radio" id="student" name="value" value="student" checked>
-        <label for="student">Student</label>
+        <input type="radio" id="student" name="role" value="student" checked >
+        <label for="student" class="option">Student</label>
         
-        <input type="radio" id="instructor" name="value" value="instructor">
-        <label for="instructor">Instructor</label>
+        <input type="radio" id="instructor" name="role" value="instructor">
+        <label for="instructor" class="option">Instructor</label>
     </div>
 
             
             <div class="input-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email" class="data-entry" autocomplete="off" required>
             </div>
             <div class="input-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+                <input type="password" id="password" class="data-entry" name="password" required>
+                
             </div>
             
             <button type="submit">Login</button>
@@ -35,8 +36,10 @@
         </form>
         <hr>
         <a href="/auth/google" class="google-btn">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google logo">
+            <img src="/images/googlelogo.png" alt="Google logo">
             Login with Google
         </a>
+    </div>
+    </div>
 </body>
 </html>
