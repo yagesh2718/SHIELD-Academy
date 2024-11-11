@@ -2,34 +2,43 @@
     <link rel="stylesheet" href="/styles/sectionasins.css"> 
 </head>
 <body>
-    <%- include('partials/header') %>
 
 <div class="section-view-y">
     <div class="side-bar-y">
-        <div class="overview-y course-part-y">Overview</div>
-        <% sections.forEach(section => { %>
-            <div class="section course-part-y"><%= section.title %></div>
+        <a href="/course-overview/<%= courseId %>" class="overview-y course-part-y">Overview</a>
+        <% sections.forEach((s) => { %>
+            <a href="/course-section/<%= s.section_id %>" class="section course-part-y"><%= s.section_name %></a>
         <% }) %>
     </div>
     <div class="container-y">
         <div class="container-txt-y">
-            <h1 class="title-y"><%= course.title %></h1>
-            <p class="description-y"><%= course.description %></p>
+            <h1 class="title-y"><%= section.section_name %></h1>
+            <p class="description-y"><%= section.section_description %></p>
         </div>
-        <a href="/download/pdf/<%= course.pdfId %>" class="download-button-y" target="_blank">Download PDF</a>
+        <a href="<%=section.pdf_link%>" class="download-button-y" target="_blank">Download PDF</a>
         
         <div class="video-container-y">
             <h2>Watch Lecture:</h2>
-            <video class="video-player-y" controls>
-                <source src="data:video/mp4;base64,<%= course.videoData.toString('base64') %>" type="video/mp4">
+            <video class="video-player-y" controls controlsList="nodownload">
+                <source src="<%= section.video_path %>" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
-        <button class="delete-section-y" style="transition: transform 0.1s; transform: scale(1);" 
-            onmousedown="this.style.transform='scale(0.9)'" 
-            onmouseup="this.style.transform='scale(1)'"
-            onmouseleave="this.style.transform='scale(1)'">Delete the Section</button>
+        <form action="/delete-section" method="POST" onsubmit="return confirm('Are you sure you want to delete this section?');">
+            <input type="hidden" name="section_id" value="<%= section.section_id %>">
+            <button type="submit" class="delete-section-y" style="transition: transform 0.1s; transform: scale(1);" 
+                    onmousedown="this.style.transform='scale(0.9)'" 
+                    onmouseup="this.style.transform='scale(1)'"
+                    onmouseleave="this.style.transform='scale(1)'">Delete the Section</button>
+        </form>
+        
     </div>
 </div>
-<%- include('partials/footer') %>
+<%- include('partials/footer-i') %>
+
+<script>
+    function confirmDeleteSection() {
+        return confirm("Are you sure you want to delete this section?");
+    }
+</script>
 </body>
