@@ -23,11 +23,11 @@
 .courselayout-y{
     display: flex;
     background-color: var(--bg-color);
-    background-image: url('./assets/shieldlogo.jpeg');
+   background-image: url('/images/shieldlogo.jpeg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    min-height: 100%;
+    min-height: 100vh;
     width: 100%;
 }
 .side-bar-y{
@@ -45,7 +45,7 @@
 .course-part-y:active{
     scale: 0.95;
 }
-.side-bar-y div{
+.side-bar-y .course-part-y{
     
     flex-basis: 100px;
     border: 1px solid var(--txt-color);
@@ -54,6 +54,7 @@
     justify-content: center;
     align-items: center;
     font-family: var(--font-1-family);
+    padding: 10px;
 }  
 .main-content-y{
     flex-basis: 85%;
@@ -148,6 +149,9 @@ button:active{
 }
 .rfc-photo-y{
     margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .rfc-price-y{
     margin: 10px;
@@ -161,3 +165,37 @@ button:hover{
     cursor: pointer;
     color: var(--bg-color);
 }
+}
+a{
+    text-decoration: none;
+}
+.rfc-photo-y img{
+    background-size: cover;
+    border-radius: 10px;
+}
+
+  
+  @media (min-width: 768px) and (max-width: 1279px) {
+    .lfc-heading-y{
+        font-size: 45px;
+    }
+    .lfc-subheading-y{
+        font-size: 25px;
+    }
+    .lfc-rating-y,.lfc-instructor-y, .lfc-level-y, .lfc-description-y {
+        font-size: 12px;
+    }
+    .main-content-y{
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+  }
+  
+  @media (min-width: 576px) and (max-width: 767px) {
+    
+  }
+  
+  @media (max-width: 575px) {
+   
+  }
