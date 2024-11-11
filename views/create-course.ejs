@@ -4,20 +4,20 @@
     <link rel="stylesheet" href="/styles/create-course.css"> 
 </head>
 <body>
-    <%- include('partials/header') %>
+    <%- include('partials/header.ejs') %>
     <div class="upload-part-y">
         <div class="container-y">
             <h1>Create Course</h1>
-            <form action="/create-course" method="POST" enctype="multipart/form-data">
+            <form action="/course-overview" method="POST" enctype="multipart/form-data">
                 
                 <div class="form-group-y">
                     <label for="courseTitle-y">Course Title:</label>
-                    <input type="text" id="courseTitle-y" name="courseTitle" value="<%= courseTitle || '' %>" required>
+                    <input type="text" id="courseTitle-y" autocomplete="off" name="courseTitle" value="<%= courseTitle || '' %>" required>
                 </div>
 
                 <div class="form-group-y">
                     <label for="subheading-y">Course Subheading:</label>
-                    <input type="text" id="subheading-y" name="subheading" value="<%= subheading || '' %>" required>
+                    <input type="text" id="subheading-y" autocomplete="off" name="subheading" value="<%= subheading || '' %>" required>
                 </div>
 
                 <div class="form-group-y">
@@ -59,6 +59,6 @@
             </form>
         </div>
     </div>
-    <%- include('partials/footer') %>
+    <%- include('partials/footer.ejs') %>
 </body>
 </html>
