@@ -8,7 +8,6 @@ import session from "express-session";
 import bcrypt from "bcrypt";
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-import Razorpay from 'razorpay';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -26,14 +25,7 @@ export default sessionConfig;
 
 
 const app = express();
-app.use(bodyParser.json());
 const port = 3000;
-
-const razorpayInstance = new Razorpay({
-    key_id: 'rzp_test_tdhd9eKtsQISvp', // Replace with your actual Razorpay key ID
-    key_secret: 'xjIjJAAcAE0fgILJm5ayJNjf', // Replace with your actual Razorpay key secret
-  });
-
 
 app.use(sessionConfig());
 
@@ -94,38 +86,6 @@ async function authenticateUser(email, password, role) {
         return null;
     }
   }
-
-
- app.get('/buy-eternium', (req, res) => {
-    res.render('eternium', { key_id: 'rzp_test_tdhd9eKtsQISvp' }); // Pass the key_id to client side
-  });
-
-
-  app.post('/createOrder', async (req, res) => {
-    const { amount } = req.body; // Amount in rupees (e.g., 500 for ₹500)
-    try {
-      const order = await razorpayInstance.orders.create({
-        amount: amount * 100, // Amount in paise
-        currency: 'INR',
-      });
-      res.json({ orderId: order.id, amount: order.amount });
-    } catch (error) {
-      console.error('Error creating Razorpay order:', error);
-      res.status(500).json({ error: 'Failed to create order' });
-    }
-  });
-  
-  // Route for Payment Success page
-  app.get('/success', (req, res) => {
-    res.render('success', { paymentId: req.query.payment_id });
-  });
-  
-  // Start the server
-//   const PORT = process.env.PORT || 3000;
-//   app.listen(PORT, () => {
-//     console.log(`Server running on http://localhost:${PORT}`);
-//   });
-
   
   app.get('/', (req, res) => {
     res.redirect('/login');
@@ -138,13 +98,15 @@ async function authenticateUser(email, password, role) {
   app.post('/login', async (req, res) => {
     const { email, password, role } = req.body;
     const user = await authenticateUser(email, password, role);
-  
+    
     if (user) {
       req.session.userId = user.id;
       console.log("Logged-in User ID:", req.session.userId); 
   
       if (role === 'student') {
-        res.redirect('/instructor-home');
+        const coursesResult = await db.query('SELECT * FROM created_courses WHERE published = true');
+        const courses = coursesResult.rows;
+        res.render('home',{courses,user});
       } else if (role === 'instructor') {
         res.redirect('/instructor-home');
       }
@@ -204,13 +166,37 @@ async function authenticateUser(email, password, role) {
   });
   
 
-  app.get('/home', isAuthenticated, (req, res) => {
-    if (req.user.role === 'student') {
-      res.render('home', { user: req.user });
-    } else {
-      res.redirect('/login');
+  app.get('/home', async (req, res) => {
+    const userId = req.session.userId;
+    
+    // Check if userId is available in session
+    if (!userId) {
+        return res.redirect('/login'); // Redirect to login if user is not authenticated
     }
-  });
+
+    try {
+        // Fetch user details
+        const result = await db.query('SELECT name, email FROM students WHERE id = $1', [userId]);
+
+        // Check if the user exists in the database
+        if (result.rows.length === 0) {
+            return res.status(404).send('User not found'); // Handle case where user is not found
+        }
+
+        const user = result.rows[0];
+
+        // Fetch courses
+        const coursesResult = await db.query('SELECT * FROM created_courses WHERE published = true');
+        const courses = coursesResult.rows;
+
+        // Render home page with courses and user data
+        res.render('home', { courses, user });
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
   
   app.get('/dashboard', (req, res) => {
     if (!req.isAuthenticated()) return res.redirect('/login');
@@ -514,12 +500,18 @@ app.post('/delete-section', async (req, res) => {
 app.get("/cosab/:courseId", async (req, res) => {
     const courseId = req.params.courseId;
     course_id = courseId
-
+    const userId = req.session.userId;
     try {
         const courseResult = await db.query(
             "SELECT * FROM created_courses WHERE id = $1;",
             [courseId]
         );
+
+        const result = await db.query('SELECT name, email FROM students WHERE id = $1', [userId]);
+    if (result.rows.length === 0) {
+        return res.status(404).send('User not found');
+    }
+    const user = result.rows[0];
 
         if (courseResult.rows.length > 0) {
             const course = courseResult.rows[0];
@@ -530,7 +522,7 @@ app.get("/cosab/:courseId", async (req, res) => {
             );
 
             const sections = sectionsResult.rows;
-            res.render("clsab", { course, sections });
+            res.render("clsab", { course, sections,user });
         } else {
             res.status(404).send("Course not found");
         }
@@ -543,13 +535,17 @@ app.get("/cosab/:courseId", async (req, res) => {
 app.get("/cosbb/:courseId", async (req, res) => {
     const courseId = req.params.courseId;
     course_id = courseId
-
+    const userId = req.session.userId;
     try {
         const courseResult = await db.query(
             "SELECT * FROM created_courses WHERE id = $1;",
             [courseId]
         );
-
+        const result = await db.query('SELECT name, email FROM students WHERE id = $1', [userId]);
+    if (result.rows.length === 0) {
+        return res.status(404).send('User not found');
+    }
+    const user = result.rows[0];
         if (courseResult.rows.length > 0) {
             const course = courseResult.rows[0];
 
@@ -559,7 +555,7 @@ app.get("/cosbb/:courseId", async (req, res) => {
             );
 
             const sections = sectionsResult.rows;
-            res.render("clsbb", { course, sections });
+            res.render("clsbb", { course, sections,user });
         } else {
             res.status(404).send("Course not found");
         }
@@ -615,8 +611,13 @@ app.get("/my-cart", async (req, res) => {
              WHERE ca.student_id = $1;`,
             [userId]
         );
+        const result = await db.query('SELECT name, email FROM students WHERE id = $1', [userId]);
+    if (result.rows.length === 0) {
+        return res.status(404).send('User not found');
+    }
+    const user = result.rows[0];
 
-        res.render("mycart", { cartItems: cartItemsResult.rows });
+        res.render("mycart", { cartItems: cartItemsResult.rows,user });
     } catch (error) {
         console.error("Error fetching cart items:", error);
         res.status(500).send("Error fetching cart items");
@@ -720,8 +721,13 @@ app.get("/my-wishlist", async (req, res) => {
              WHERE ca.student_id = $1;`,
             [userId]
         );
+        const result = await db.query('SELECT name, email FROM students WHERE id = $1', [userId]);
+    if (result.rows.length === 0) {
+        return res.status(404).send('User not found');
+    }
+    const user = result.rows[0];
 
-        res.render("wishlist", { wishlistItems: wishlistItemsResult.rows });
+        res.render("wishlist", { wishlistItems: wishlistItemsResult.rows ,user});
     } catch (error) {
         console.error("Error fetching wishlist items:", error);
         res.status(500).send("Error fetching wishlist items");
@@ -748,6 +754,7 @@ app.post('/remove-from-wishlist', async (req, res) => {
 app.get('/performance',async (req,res)=>{
     res.render('performance')
 })
+
 
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
