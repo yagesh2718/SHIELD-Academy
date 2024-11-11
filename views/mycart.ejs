@@ -20,12 +20,17 @@
     <% cartItems.forEach(item => { %>
         <div class="b-course-card-y">
             <div class="b-course-photo-y">
-                <a href="/course/<%= item.id %>"> 
-                    <img src="data:image/jpeg;base64,<%= item.imageData.toString('base64') %>" alt="" width="300px" class="bc-pic-y">
+                <a href="/cosbb/<%= item.id %>"> 
+                    <% if (item.thumbnail) { %>
+                        <img src="<%= item.thumbnail %>" alt="Course Image" width="300px" height="200px" class="bc-pic-y">
+                    <% } else { %>
+                        <p>No image available</p> 
+                    <% } %>
                 </a>
+                
             </div>
             <div class="b-course-heading-y">
-                <a href="/course/<%= item.id %>">
+                <a href="/cosbb/<%= item.id %>">
                     <p class="bch-txt-y"><%= item.title %></p>
                 </a>
             </div>
@@ -42,12 +47,18 @@
                 <p class="bci-txt-y">Instructor: <%= item.instructor %></p>
             </div>
             <div class="bcc-btns-y">
-                <button class="bccb-buy-y">Buy</button>
-                <button class="bccb-remove-y">Remove</button>
+                <form action="/buy-course/<%= item.id %>" method="POST">
+                    <button type="submit" class="bccb-buy-y">Buy</button>
+                </form>
+                <form action="/remove-from-cart/<%= item.id %>" method="POST">
+                    <button type="submit" class="bccb-remove-y">Remove</button>
+                </form>
             </div>
+            
         </div>
     <% }) %>
 </div>
+
 <%- include('partials/footer') %>
 </body>
 </html>
