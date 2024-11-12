@@ -656,7 +656,7 @@ app.get("/my-cart", async (req, res) => {
     }
     const user = result.rows[0];
 
-        res.render("mycart", { cartItems: cartItemsResult.rows,user });
+        res.render("mycart", { cartItems: cartItemsResult.rows,user } , { key_id: 'rzp_test_tdhd9eKtsQISvp' });
     } catch (error) {
         console.error("Error fetching cart items:", error);
         res.status(500).send("Error fetching cart items");
