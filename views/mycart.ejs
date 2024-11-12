@@ -11,8 +11,8 @@
     <div class="t-heading-y">
         <p class="my-cart-y-txt">My Cart</p>
     </div>
-    <div class="t-buy-all-btn-y">
-        <button class="buy-all-btn-y">Checkout</button>
+    <div class="t-buy-all-btn-y  payButton" >
+        <button class="buy-all-btn-y" data-amount="1999" >Checkout</button>
     </div>
 </div>
 
@@ -47,9 +47,9 @@
                 <p class="bci-txt-y">Instructor: <%= item.instructor %></p>
             </div>
             <div class="bcc-btns-y">
-                <form action="/buy-course/<%= item.id %>" method="POST">
-                    <button type="submit" class="bccb-buy-y">Buy</button>
-                </form>
+                
+                    <button type="submit" class="bccb-buy-y payButton">Buy</button>
+                
                 <form action="/remove-from-cart/<%= item.id %>" method="POST">
                     <button type="submit" class="bccb-remove-y">Remove</button>
                 </form>
@@ -60,5 +60,52 @@
 </div>
 
 <%- include('partials/footer') %>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+    document.querySelectorAll('.payButton').forEach(button => {
+      button.onclick = async () => {
+        // Retrieve amount from button's data attribute
+        const amount = button.getAttribute('data-amount'); // Amount in rupees
+
+        try {
+          // Call server to create order
+          const response = await fetch('/createOrder', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ amount })
+          });
+          
+          // Parse response from server
+          const { orderId, amount: amountInPaise } = await response.json();
+
+          // Razorpay options
+          const options = {
+            key: '<%= key_id %>', // Key ID passed from server
+            amount: amountInPaise, // Amount in paise
+            currency: 'INR',
+            name: 'S.H.I.E.L.D Academy',
+            description: 'Purchase Description',
+            image: "https://i.pinimg.com/474x/66/a2/bd/66a2bdf40cf67368f3f18488a46c3673.jpg",
+            order_id: orderId,
+            handler: function (response) {
+              // Redirect to success page with payment ID
+              window.location.href = `/success?payment_id=${response.razorpay_payment_id}`;
+            },
+            prefill: {
+              name: 'Vivek Singh',
+              email: 'vs6189874@gmail.com',
+              contact: '7464968344',
+            },
+            theme: { color: '#0000FF' },
+          };
+
+          const rzp = new Razorpay(options);
+          rzp.open();
+        } catch (error) {
+          console.error('Error initiating payment:', error);
+        }
+      };
+    });
+  </script>
 </body>
 </html>
