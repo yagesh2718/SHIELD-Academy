@@ -594,7 +594,7 @@ app.get("/cosbb/:courseId", async (req, res) => {
             );
 
             const sections = sectionsResult.rows;
-            res.render("clsbb", { course, sections,user } , { key_id: 'rzp_test_tdhd9eKtsQISvp' });
+            res.render("clsbb", { course, sections,user  ,  key_id: 'rzp_test_tdhd9eKtsQISvp' });
         } else {
             res.status(404).send("Course not found");
         }
@@ -656,7 +656,7 @@ app.get("/my-cart", async (req, res) => {
     }
     const user = result.rows[0];
 
-        res.render("mycart", { cartItems: cartItemsResult.rows,user } , { key_id: 'rzp_test_tdhd9eKtsQISvp' });
+        res.render("mycart", { cartItems: cartItemsResult.rows,user  , key_id: 'rzp_test_tdhd9eKtsQISvp' });
     } catch (error) {
         console.error("Error fetching cart items:", error);
         res.status(500).send("Error fetching cart items");
