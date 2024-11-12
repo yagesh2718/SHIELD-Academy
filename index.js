@@ -96,7 +96,7 @@ async function authenticateUser(email, password, role) {
   }
 
 
-app.get('/buy-eternium', (req, res) => {
+app.get('/eternium', (req, res) => {
     res.render('eternium', { key_id: 'rzp_test_tdhd9eKtsQISvp' }); // Pass the key_id to client side
   });
 
