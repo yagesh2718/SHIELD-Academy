@@ -1,0 +1,106 @@
+:root {
+    --dark-blue-v: #0a1f44;
+    --light-blue-v: #4a90e2;
+    --text-light-v: #ffffff;
+    --text-gray-v: #c0c0c0;
+    --logo-size-v: 80px; /* Size of the logo */
+    --border-radius-v: 10px;
+}
+
+body {
+    background-color: var(--dark-blue-v);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.certificate-container-v {
+    position: relative; /* Allows absolute positioning of the logo inside */
+    background-color: var(--light-blue-v);
+    width: 80%;
+    max-width: 900px;
+    padding: 30px;
+    border: 2px solid var(--dark-blue-v);
+    border-radius: var(--border-radius-v);
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    color: var(--text-light-v);
+}
+
+.logo-v {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: var(--logo-size-v);
+    height: auto;
+}
+
+.header-v {
+    margin-bottom: 20px;
+}
+
+.header-v h1 {
+    font-size: 2.5em;
+    margin: 0;
+}
+
+.header-v p {
+    font-style: italic;
+    font-size: 1.2em;
+    color: var(--text-gray-v);
+}
+
+.content-v {
+    margin-top: 20px;
+}
+
+.certificate-title-v {
+    font-size: 2em;
+    color: var(--text-light-v);
+    margin-bottom: 15px;
+}
+
+.student-name-v, .course-name-v {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: var(--text-light-v);
+    margin: 10px 0;
+}
+
+.description-v {
+    color: var(--text-gray-v);
+    margin: 15px 0;
+    font-size: 1.1em;
+}
+
+.date-v {
+    color: var(--text-gray-v);
+    margin-top: 10px;
+}
+
+.footer-v {
+    margin-top: 30px;
+}
+
+.director-signature-v {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+.download-btn-v {
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: var(--dark-blue-v);
+    color: var(--text-light-v);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.download-btn-v:hover {
+    background-color: #08336b;
+}
