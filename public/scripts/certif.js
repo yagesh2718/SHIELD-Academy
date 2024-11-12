@@ -1,63 +1,62 @@
-// Import jsPDF as a global script
-document.getElementById('download-btn-v').addEventListener('click', () => {
-    const { jsPDF } = window.jspdf; // Access jsPDF from the global `window.jspdf`
 
-    // Create a new jsPDF instance
+document.getElementById('download-btn-v').addEventListener('click', () => {
+    const { jsPDF } = window.jspdf; 
+
+    
     const pdf = new jsPDF('p', 'mm', 'a4');
 
-    // Set general styling
+    
     pdf.setFont('Times', 'normal');
-    pdf.setTextColor(0, 0, 128); // Dark blue color for text
+    pdf.setTextColor(0, 0, 128); 
 
-    // Shield Academy Logo Placeholder (you can replace with actual image if you have one)
+   
     pdf.setFontSize(20);
     pdf.text('Shield Academy', 105, 30, { align: 'center' });
     pdf.setFontSize(12);
     pdf.text('Official Certificate of Completion', 105, 40, { align: 'center' });
 
-    // Title
+   
     pdf.setFontSize(24);
     pdf.text('Certificate of Achievement', 105, 70, { align: 'center' });
 
-    // Student's Name
     pdf.setFontSize(18);
-    pdf.setTextColor(0, 0, 0); // Black for main text
+    pdf.setTextColor(0, 0, 0); 
     pdf.text(`This certificate is proudly presented to`, 105, 90, { align: 'center' });
 
     // Student name placeholder
-    const studentName = 'Jane Doe';  // Replace with actual student data if needed
+    const studentName = 'Jane Doe';  
     pdf.setFontSize(20);
-    pdf.setTextColor(0, 51, 153);  // Dark blue for name
+    pdf.setTextColor(0, 51, 153);  
     pdf.text(studentName, 105, 105, { align: 'center' });
 
-    // Course information
+   
     pdf.setFontSize(18);
-    pdf.setTextColor(0, 0, 0); // Black text
+    pdf.setTextColor(0, 0, 0); 
     pdf.text(`for successfully completing the`, 105, 125, { align: 'center' });
 
-    const courseName = 'Advanced Spy Tactics';  // Replace with actual course name if needed
+    const courseName = 'Advanced Spy Tactics';  
     pdf.setFontSize(20);
-    pdf.setTextColor(0, 51, 153);  // Dark blue for course name
+    pdf.setTextColor(0, 51, 153);  
     pdf.text(courseName, 105, 140, { align: 'center' });
 
-    // Certificate description
+    
     pdf.setFontSize(12);
-    pdf.setTextColor(100, 100, 100); // Gray for description text
+    pdf.setTextColor(100, 100, 100); 
     pdf.text(
         'We commend your dedication and excellence in achieving this milestone.',
         105, 160,
         { align: 'center' }
     );
 
-    // Date and Signature
+    
     pdf.setFontSize(12);
-    const issueDate = new Date().toLocaleDateString(); // Set current date
-    pdf.setTextColor(0, 0, 0); // Black text
+    const issueDate = new Date().toLocaleDateString(); 
+    pdf.setTextColor(0, 0, 0); 
     pdf.text(`Date: ${issueDate}`, 105, 180, { align: 'center' });
 
     pdf.setFontSize(14);
     pdf.text('Director Nick Fury', 105, 200, { align: 'center' });
 
-    // Save the PDF
+    
     pdf.save("Shield_Academy_Certificate.pdf");
 });
