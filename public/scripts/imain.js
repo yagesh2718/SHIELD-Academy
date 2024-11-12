@@ -6,18 +6,7 @@ const courseData = [
 
 const courseList = document.getElementById("courseList-v");
 
-courseData.forEach(course => {
-    const courseCard = document.createElement("div");
-    courseCard.className = "course-card-v";
-    
-    courseCard.innerHTML = `
-        <h3>${course.title}</h3>
-        <p><strong>Level:</strong> ${course.level}</p>
-        <p><strong>Price:</strong> ${course.price}</p>
-    `;
 
-    courseList.appendChild(courseCard);
-});
 
 
 
@@ -28,7 +17,7 @@ function toggleProfileDropdown() {
     dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
 }
 
-// Close dropdown if clicking outside of profile
+
 document.addEventListener('click', function(event) {
     const profile = document.querySelector('.profilev-v');
     const dropdown = document.getElementById('profileDropdown-v');
