@@ -125,6 +125,60 @@ app.get('/eternium', (req, res) => {
 //   app.listen(PORT, () => {
 //     console.log(`Server running on http://localhost:${PORT}`);
 //   });
+
+
+
+router.get('/certificate/:course_id', async (req, res) => {
+    const studentId = req.session.student_id;  // Get student_id from session
+    const courseId = req.params.course_id;     // Get course_id from URL params
+    
+    if (!studentId) {
+        return res.status(403).send('Unauthorized: No student session');
+    }
+
+    try {
+        // Fetch the student's name from the students table using student_id
+        const studentResult = await db.query('SELECT student_name FROM students WHERE student_id = $1', [studentId]);
+
+        if (studentResult.rows.length === 0) {
+            return res.status(404).send('Student not found');
+        }
+
+        const studentName = studentResult.rows[0].student_name;
+
+        // Fetch the course details using course_id
+        const courseResult = await db.query('SELECT course_name FROM courses WHERE course_id = $1', [courseId]);
+
+        if (courseResult.rows.length === 0) {
+            return res.status(404).send('Course not found');
+        }
+
+        const courseName = courseResult.rows[0].course_name;
+
+        // Get the current date for issue date
+        const issueDate = new Date().toLocaleDateString();
+
+        // Render the certificate page with fetched data
+        res.render('certificate', {
+            studentName: studentName,
+            courseName: courseName,
+            issueDate: issueDate
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
+});
+
+
+
+
+
+
+
+
+
   
   app.get('/', (req, res) => {
     res.redirect('/login');
