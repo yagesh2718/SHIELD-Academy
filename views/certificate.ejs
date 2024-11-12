@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shield Academy Certificate</title>
+    <link rel="stylesheet" href="/styles/certificate.css">
+</head>
+<body>
+    <div id="certificate-container-v" class="certificate-container-v">
+        <!-- Logo placed in the top-left corner -->
+        <img src="/images/logo.png" alt="Shield Academy Logo" class="logo-v" />
+
+        <header class="header-v">
+            <h1>Shield Academy</h1>
+            <p>Official Certificate of Completion</p>
+        </header>
+
+        <main class="content-v">
+            <h2 class="certificate-title-v">Certificate of Achievement</h2>
+            <p>This certificate is proudly presented to</p>
+            <h3 class="student-name-v"><%= studentName %></h3>
+            <p>for successfully completing the</p>
+            <h3 class="course-name-v"><%= courseName %></h3>
+            <p class="description-v">
+                We commend your dedication and excellence in achieving this milestone.
+            </p>
+            <p class="date-v">Date: <%= issueDate %></p>
+        </main>
+
+        <footer class="footer-v">
+            <p class="director-signature-v">Director Nick Fury</p>
+            <button id="download-btn-v" class="download-btn-v">Download PDF</button>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="/scripts/certif.js"></script>
+</body>
+</html>
