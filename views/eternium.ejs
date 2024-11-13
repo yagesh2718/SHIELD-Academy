@@ -26,48 +26,40 @@
 
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script>
-  document.getElementById('payButton').onclick = async () => {
-    
-    const amount = 2000; 
+handler: async function (response) {
+        try {
+          // Get userId from the session or token
+          // Example: Pass the userId via server-side templating or use a cookie/session
 
-    try {
-      
-      const response = await fetch('/createOrder', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount })
-      });
-      
-      
-      const { orderId, amount: amountInPaise } = await response.json();
+          // Make an API call to insert the courses in courses_bought
+          const coursesResponse = await fetch('/completePayment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({  paymentId: response.razorpay_payment_id }),
+          });
 
-      
-      const options = {
-        key: '<%= key_id %>', 
-        amount: amountInPaise, 
-        currency: 'INR',
-        name: 'S.H.I.E.L.D Academy',
-        description: 'Purchase Description',
-        image: "https://i.pinimg.com/474x/66/a2/bd/66a2bdf40cf67368f3f18488a46c3673.jpg",
-        order_id: orderId,
-        handler: function (response) {
-          
+          const result = await coursesResponse.json();
+
+          // Redirect to success page with the payment ID
           window.location.href = `/success?payment_id=${response.razorpay_payment_id}`;
-        },
-        prefill: {
-          name: 'Vivek Singh',
-          email: 'vs6189874@gmail.com',
-          contact: '7464968344',
-        },
-        theme: { color: '#0000FF' },
-      };
+        } catch (error) {
+          console.error('Error during payment completion:', error);
+        }
+      },
+      prefill: {
+        name: 'Vivek Singh',
+        email: 'vs6189874@gmail.com',
+        contact: '7464968344',
+      },
+      theme: { color: '#0000FF' },
+    };
 
-      const rzp = new Razorpay(options);
-      rzp.open();
-    } catch (error) {
-      console.error('Error initiating payment:', error);
-    }
-  };
+    const rzp = new Razorpay(options);
+    rzp.open();
+  } catch (error) {
+    console.error('Error initiating payment:', error);
+  }
+};
+
 </script>
 </body>
