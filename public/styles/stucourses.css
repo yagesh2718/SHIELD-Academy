@@ -41,7 +41,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url('./assets/shieldlogo.jpeg');
+    background-image: url('/images/shieldlogo.jpeg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -67,7 +67,7 @@
     color: var(--bg-color);
 }
 .b-course-card-y{
-    width: 350px;
+    max-width: 350px;
     margin: 30px;
     margin-top: 0px;
     padding: 20px;
@@ -79,6 +79,7 @@
     border-radius: 50px;
     border: 2px solid var(--sec-color);
     font-family: var(--font-1-family);
+    height: 85vh;
 }
 .b-course-photo-y{
     display: flex;
@@ -150,22 +151,23 @@
     padding: 8px 12px;
     font-size: 16px;
     color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 5px;
+    background-color: var(--bg-color);
+    border: 1px solid var(--pri-color);
+    border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease;
     font-family: var(--font-1-family);
 }
 
 .rating-input-y button:hover {
-    background-color: #0056b3;
+    background-color: var(--pri-color);
+    color: var(--bg-color);
 }
 .recommend-y{
     padding: 180px 0 50px 0;
     min-width: 100vw;
     height: auto;
-    background-image: url('./assets/shieldlogo.jpeg');
+     background-image: url('/images/shieldlogo.jpeg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -191,4 +193,15 @@ button:active{
 }
 .b-course-photo-y img{
     border-radius: 30px;
+}
+
+a{
+    text-decoration: none;
+    color: var(--six-color);
+}
+.b-course-card-y {
+    font-size: 18px;
+}
+.bch-txt-y{
+    font-size: 25px;
 }
