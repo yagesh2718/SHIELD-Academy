@@ -91,7 +91,7 @@
 }
 
 .create-course-btn-v:active {
-    transform: translateY(1px); /* Gives a pressed effect when clicked */
+    transform: translateY(1px); 
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
@@ -156,7 +156,7 @@
     font-weight: 200;
 }
 
-/* Hover Effects */
+
 .course-card-v::before {
     content: "";
     position: absolute;
