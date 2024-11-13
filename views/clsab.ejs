@@ -35,6 +35,14 @@
                     <p><%= course.description %></p>
                 </div>
             </div>
+<div class="comment-section-y">
+                <h3>Comments</h3>
+                <div id="comments-container"></div>
+                <div class="comment-form-y">
+                    <textarea id="comment-input" placeholder="Write a comment..."></textarea>
+                    <button onclick="submitComment()">Post Comment</button>
+                </div>
+            </div>
         </div>
 
         <div class="right-main-content-y">
@@ -57,5 +65,55 @@
 <%- include("partials/footer.ejs") %>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/scripts/chat.js"></script>
+<script>
+    async function loadComments() {
+        const courseId = '<%= course.id %>'; // EJS: course ID
+    const response = await fetch(`/cosab/${courseId}/comments`);
+    
+    if (response.ok) {
+        const comments = await response.json();
+
+        const commentsContainer = document.getElementById("comments-container");
+        commentsContainer.innerHTML = ''; // Clear the existing comments
+
+        // Display each comment
+        comments.forEach(comment => {
+            const commentElement = document.createElement("div");
+            commentElement.classList.add("comment-item");
+
+            commentElement.innerHTML = `
+                <p><strong>${comment.user_name}</strong>:</p>
+                <p>${comment.comment}</p>
+                <p><small>${comment.date_time}</small></p>
+            `;
+            commentsContainer.appendChild(commentElement);
+        });
+    } else {
+        console.error("Error fetching comments:", response.statusText);
+    }
+}
+
+async function submitComment() {
+  const courseId = '<%= course.id %>';
+  const userId = '<%= userId %>';
+  const userName = '<%= user.name %>';  // Ensure `user.name` is passed to EJS
+  const comment = document.getElementById('comment-input').value;
+
+  if (comment.trim() === '') return alert('Comment cannot be empty');
+
+  await fetch('/comments', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ courseId, userId, userName, comment })
+  });
+
+  document.getElementById('comment-input').value = '';
+  loadComments();  // Refresh the comments after posting
+}
+
+// Load comments when the page loads
+document.addEventListener('DOMContentLoaded', loadComments);
+
+</script>
 </body>
 </html>
