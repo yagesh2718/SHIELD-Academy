@@ -96,9 +96,8 @@
     border-radius: 50%;
 }
 
-/* Profile dropdown styling */
 .profile-dropdown-v {
-    display: none; /* Hidden by default */
+    display: none; 
     position: absolute;
     top: 50px;
     right: 0;
@@ -127,4 +126,13 @@
     color: var(--six-color);
     transform: scale(1.1);
     transition: 200ms;
+}
+
+.logout-btn{
+    background-color: red;
+    color: var(--sec-color);
+    padding: 4px;
+    font-family: var(--font-1-family);
+    border-radius: 10px;
+    cursor: pointer;
 }
