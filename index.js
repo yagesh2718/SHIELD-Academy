@@ -10,6 +10,50 @@ import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import Razorpay from 'razorpay';
 
+import { createServer } from 'http';
+import { Server } from 'socket.io';
+
+const app = express();
+const PORT = process.env.PORT || 4000;
+
+// Create the server
+const server = createServer(app);
+
+const io = new Server(server);
+
+app.use(express.static('public'));  // Serve static files from the 'public' folder
+
+
+server.listen(PORT, () => {
+  console.log(`💬 server on port ${PORT}`);
+});
+
+io.on('connection', (socket) => {
+    console.log('A user connected: ', socket.id);
+  
+    socket.on('message', async (data) => {
+        console.log('Message received:', data);
+      
+        // Insert message into the database
+        const insertQuery = `
+          INSERT INTO messages (user_id, course_id, message, date_time,role)
+    VALUES ($1, $2, $3, $4, $5)
+        `;
+        const values = [data.userid, data.courseid, data.message, data.dateTime , data.role];
+        await db.query(insertQuery, values);
+      
+        // Broadcast the message to all other clients (excluding the sender)
+        socket.broadcast.emit('chat-message', data);
+      });
+      
+  
+    socket.on('disconnect', () => {
+      console.log('A user disconnected: ', socket.id);
+    });
+  });
+
+let messages = {};
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -25,7 +69,7 @@ const sessionConfig = () => {
 export default sessionConfig;
 
 
-const app = express();
+
 app.use(bodyParser.json());
 const port = 3000;
 
@@ -128,48 +172,6 @@ app.get('/eternium', (req, res) => {
 
 
 
-router.get('/certificate/:course_id', async (req, res) => {
-    const studentId = req.session.student_id;  // Get student_id from session
-    const courseId = req.params.course_id;     // Get course_id from URL params
-    
-    if (!studentId) {
-        return res.status(403).send('Unauthorized: No student session');
-    }
-
-    try {
-        // Fetch the student's name from the students table using student_id
-        const studentResult = await db.query('SELECT student_name FROM students WHERE student_id = $1', [studentId]);
-
-        if (studentResult.rows.length === 0) {
-            return res.status(404).send('Student not found');
-        }
-
-        const studentName = studentResult.rows[0].student_name;
-
-        // Fetch the course details using course_id
-        const courseResult = await db.query('SELECT course_name FROM courses WHERE course_id = $1', [courseId]);
-
-        if (courseResult.rows.length === 0) {
-            return res.status(404).send('Course not found');
-        }
-
-        const courseName = courseResult.rows[0].course_name;
-
-        // Get the current date for issue date
-        const issueDate = new Date().toLocaleDateString();
-
-        // Render the certificate page with fetched data
-        res.render('certificate', {
-            studentName: studentName,
-            courseName: courseName,
-            issueDate: issueDate
-        });
-
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Server error');
-    }
-});
 
 
 
@@ -188,7 +190,7 @@ router.get('/certificate/:course_id', async (req, res) => {
     res.render('login');
   });
   
-  app.post('/login', async (req, res) => {
+ app.post('/logincourse', async (req, res) => {
     const { email, password, role } = req.body;
     const user = await authenticateUser(email, password, role);
     
@@ -395,13 +397,43 @@ router.get('/certificate/:course_id', async (req, res) => {
   
   app.get('/auth/google/secrets',
     passport.authenticate('google', { failureRedirect: '/login?error=invalid_credentials' }),
-    (req, res) => {
-      if (req.user.role === 'student') {
-        return res.render('home');
-      } else if (req.user.role === 'instructor') {
-        return res.render('instructor-homepage');
-      } else {
-        res.redirect('/login');
+    async (req, res) => {
+      try {
+        // Extract email from Google authentication response
+        const email = req.user.email; // Assuming req.user contains the email
+  
+        // Fetch the student's ID from the database using email
+        
+  
+        // Redirect based on the user's role
+        if (req.user.role === 'student') {
+            const result = await db.query('SELECT id FROM students WHERE email = $1', [email]);
+  
+        if (result.rows.length === 0) {
+          // If the user is not found in the database, redirect to login
+          return res.redirect('/login?error=user_not_found');
+        }
+  
+        // Set userId in the session
+        req.session.userId = result.rows[0].id;
+          return res.redirect('/home');
+        } else if (req.user.role === 'instructor') {
+            const result = await db.query('SELECT id FROM instructor WHERE email = $1', [email]);
+  
+        if (result.rows.length === 0) {
+          // If the user is not found in the database, redirect to login
+          return res.redirect('/login?error=user_not_found');
+        }
+  
+        // Set userId in the session
+        req.session.userId = result.rows[0].id;
+          return res.redirect('/instructor-homepage');
+        } else {
+          res.redirect('/login');
+        }
+      } catch (error) {
+        console.error('Error retrieving user ID:', error);
+        res.redirect('/login?error=server_error');
       }
     }
   );
@@ -615,7 +647,7 @@ app.get("/cosab/:courseId", async (req, res) => {
             );
 
             const sections = sectionsResult.rows;
-            res.render("clsab", { course, sections,user });
+            res.render("clsbb", { course, userId , sections , user ,key_id: 'rzp_test_tdhd9eKtsQISvp' });
         } else {
             res.status(404).send("Course not found");
         }
@@ -657,6 +689,78 @@ app.get("/cosbb/:courseId", async (req, res) => {
         res.status(500).send("Error fetching course overview");
     }
 });
+
+app.post('/store-payment-info', async (req, res) => {
+    const {course_id, student_id} = req.body;
+
+    try {
+        
+        const result = await db.query(
+            'INSERT INTO courses_bought (course_id, student_id) VALUES ($1, $2)',
+            [course_id, student_id]
+        );
+        res.status(200).json({ message: 'Payment info stored successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Failed to store payment info' });
+    }
+});
+
+app.get('/getCartTotal', async (req, res) => {
+    const userId = req.session.userId; // Get current user ID from session
+  
+    try {
+      const { rows } = await db.query(`
+        SELECT SUM(created_courses.price) AS total
+        FROM cart
+        JOIN created_courses ON cart.course_id = created_courses.id
+        WHERE cart.student_id = $1
+      `, [userId]);
+  
+      // Convert total to paise (multiply by 100) and send as JSON
+      const totalInPaise = rows[0].total ;
+      res.json({ amount: totalInPaise });
+    } catch (error) {
+      console.error('Error fetching cart total:', error);
+      res.status(500).json({ error: 'Failed to fetch cart total' });
+    }
+  });
+  
+  
+  app.post('/updatePurchasedCourses', async (req, res) => {
+    const userId = req.session.userId; // Current user
+    const { paymentId } = req.body;
+  
+    // Fetch all courses in the cart
+    const { rows: cartItems } = await db.query('SELECT course_id FROM cart WHERE student_id = $1', [userId]);
+  
+    // Insert courses into courses_bought table
+    const insertQuery = 'INSERT INTO courses_bought (student_id, course_id) VALUES ($1, $2)';
+    for (const { course_id } of cartItems) {
+      await db.query(insertQuery, [userId, course_id]);
+    }
+  
+    // Clear cart after purchase
+    await db.query('DELETE FROM cart WHERE student_id = $1', [userId]);
+  
+    res.json({ success: true });
+  });
+  
+  app.post('/updatePurchasedCourses2', async (req, res) => {
+    const userId = req.session.userId; // Current user
+    const { paymentId, courseId } = req.body;
+  
+    try {
+      // Insert course into courses_bought table
+      const query = 'INSERT INTO courses_bought (student_id, course_id) VALUES ($1, $2)';
+      await db.query(query, [userId, courseId]);
+  
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Error updating purchased courses:', error);
+      res.status(500).json({ error: 'Failed to update purchased courses' });
+    }
+  });
 
 app.post('/add-to-cart', async (req, res) => {
     const courseId = req.body.course_id;
@@ -844,9 +948,307 @@ app.post('/remove-from-wishlist', async (req, res) => {
     }
 });
 
-app.get('/performance',async (req,res)=>{
-    res.render('performance')
+async function calculatePercentageCompleted(studentId, courseId) {
+    try {
+      // Query to get the total sections in the course
+      const totalSectionsQuery = `
+        SELECT COUNT(*) AS total_sections
+        FROM sections
+        WHERE course_id = $1
+      `;
+      const totalSectionsResult = await db.query(totalSectionsQuery, [courseId]);
+      const totalSections = totalSectionsResult.rows[0].total_sections;
+  
+      // Query to get the number of sections completed by the student
+      const completedSectionsQuery = `
+        SELECT COUNT(*) AS completed_sections
+        FROM student_sections
+        WHERE student_id = $1 AND course_id = $2
+      `;
+      const completedSectionsResult = await db.query(completedSectionsQuery, [studentId, courseId]);
+      const completedSections = completedSectionsResult.rows[0].completed_sections;
+  
+      // Calculate percentage
+      return Math.round((completedSections / totalSections) * 100);
+    } catch (error) {
+      console.error("Error calculating percentage completed:", error);
+      throw error;
+    }
+  }
+  
+  // Route for displaying MyCourses and Recommendations
+  app.get('/my-courses', async (req, res) => {
+    const studentId = req.session.userId;
+    const result = await db.query('SELECT name, email FROM students WHERE id = $1', [studentId]);
+    const user = result.rows[0];
+    try {
+      // Query to fetch MyCourses
+      const myCoursesQuery = `
+        SELECT c.id, c.title, c.thumbnail ,c.category, c.rating, c.level, c.instructor AS instructor
+        FROM created_courses c
+        JOIN courses_bought cb ON c.id = cb.course_id
+        JOIN instructor i ON c.instructor = i.name
+        WHERE cb.student_id = $1
+      `;
+      const myCoursesResult = await db.query(myCoursesQuery, [studentId]);
+      const myCourses = await Promise.all(myCoursesResult.rows.map(async course => {
+        const percentageCompleted = await calculatePercentageCompleted(studentId, course.id);
+        return { ...course, percentageCompleted };
+      }));
+  
+      // Query to get the category of the last course bought by the student
+const lastCourseCategoryQuery = `
+SELECT c.category
+FROM created_courses c
+JOIN courses_bought cb ON c.id = cb.course_id
+WHERE cb.student_id = $1
+AND cb.course_id = (SELECT MAX(course_id) FROM courses_bought WHERE student_id = $1)
+`;
+
+const lastCourseCategoryResult = await db.query(lastCourseCategoryQuery, [studentId]);
+const lastCategory = lastCourseCategoryResult.rows[0]?.category;
+console.log("category:",lastCategory)
+
+let recommendedCourses = [];
+if (lastCategory) {
+const recommendedCoursesQuery = `
+SELECT c.id, c.title, c.thumbnail AS imageUrl, c.price, c.level, c.instructor
+FROM created_courses c
+WHERE c.category = $1 
+  AND c.id NOT IN (SELECT course_id FROM courses_bought WHERE student_id = $2)
+`;
+
+const recommendedCoursesResult = await db.query(recommendedCoursesQuery, [lastCategory, studentId]);
+const recommendedCourses = recommendedCoursesResult.rows;
+console.log("recommended ",recommendedCourses)
+
+}
+
+      res.render('stucourses', { myCourses, recommendedCourses ,user});
+  
+    } catch (error) {
+      console.error('Error fetching courses:', error);
+      res.status(500).send("An error occurred while fetching courses.");
+    }
+  });
+  
+  // Route for submitting rating
+  app.post('/submit-rating/:courseId', async (req, res) => {
+    const studentId = req.session.userId;
+    const courseId = req.params.courseId;
+    const { rating } = req.body;
+  
+    try {
+      const insertRatingQuery = `
+        INSERT INTO ratings (student_id, course_id, rating)
+        VALUES ($1, $2, $3)
+        ON CONFLICT (student_id, course_id) DO UPDATE SET rating = EXCLUDED.rating
+      `;
+      await db.query(insertRatingQuery, [studentId, courseId, rating]);
+  
+      res.redirect('/my-courses');
+    } catch (error) {
+      console.error('Error submitting rating:', error);
+      res.status(500).send("An error occurred while submitting the rating.");
+    }
+  });
+
+
+
+app.get('/download-certificate/:course_id', async (req, res) => {
+    const studentId = req.session.userId;  // Get student_id from session
+    const courseId = req.params.course_id;     // Get course_id from URL params
+    
+    if (!studentId) {
+        return res.status(403).send('Unauthorized: No student session');
+    }
+
+    try {
+        // Fetch the student's name from the students table using student_id
+        const studentResult = await db.query('SELECT name FROM students WHERE id = $1', [studentId]);
+
+        if (studentResult.rows.length === 0) {
+            return res.status(404).send('Student not found');
+        }
+
+        const studentName = studentResult.rows[0].name;
+
+        // Fetch the course details using course_id
+        const courseResult = await db.query('SELECT title FROM created_courses WHERE id = $1', [courseId]);
+
+        if (courseResult.rows.length === 0) {
+            return res.status(404).send('Course not found');
+        }
+
+        const courseName = courseResult.rows[0].title;
+
+        // Get the current date for issue date
+        const issueDate = new Date().toLocaleDateString();
+
+        // Render the certificate page with fetched data
+        res.render('certificate', {
+            studentName: studentName,
+            courseName: courseName,
+            issueDate: issueDate
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
+});
+
+
+app.get('/performance', async (req, res) => {
+    try {
+        const instructorId = req.session.userId;
+
+        // Fetch instructor's name from the instructor table using instructorId
+        const instructorResult = await db.query(
+            'SELECT name FROM instructor WHERE id = $1',
+            [instructorId]
+        );
+        const instructorName = instructorResult.rows[0]?.name;
+
+        if (!instructorName) {
+            return res.status(404).send('Instructor not found');
+        }
+
+        // 1. Calculate total revenue
+        const revenueResult = await db.query(
+            `SELECT SUM(cc.price) AS total_revenue
+             FROM created_courses AS cc
+             JOIN courses_bought AS cb ON cc.id = cb.course_id
+             WHERE cc.instructor = $1`,
+            [instructorName]
+        );
+        const totalRevenue = revenueResult.rows[0]?.total_revenue || 0;
+
+        // 2. Calculate total enrollments
+        const enrollmentsResult = await db.query(
+            `SELECT COUNT(*) AS total_enrollments
+             FROM created_courses AS cc
+             JOIN courses_bought AS cb ON cc.id = cb.course_id
+             WHERE cc.instructor = $1`,
+            [instructorName]
+        );
+        const totalEnrollments = enrollmentsResult.rows[0]?.total_enrollments || 0;
+
+        // 3. Calculate average rating
+        const ratingResult = await db.query(
+            `SELECT AVG(cc.rating) AS average_rating
+             FROM created_courses AS cc
+             WHERE cc.instructor = $1`,
+            [instructorName]
+        );
+        const averageRating = ratingResult.rows[0]?.average_rating || 0;
+
+        // 4. Count active courses
+        const activeCoursesResult = await db.query(
+            `SELECT COUNT(*) AS active_courses
+             FROM created_courses
+             WHERE instructor = $1 AND published = true`,
+            [instructorName]
+        );
+        const activeCourses = activeCoursesResult.rows[0]?.active_courses || 0;
+
+        // 5. Course list with enrollment and revenue for each course
+        const courseListResult = await db.query(
+            `SELECT cc.id, cc.title, COUNT(cb.course_id) AS enrollments, 
+                    COALESCE(SUM(cc.price), 0) AS revenue, cc.rating
+             FROM created_courses AS cc
+             LEFT JOIN courses_bought AS cb ON cc.id = cb.course_id
+             WHERE cc.instructor = $1
+             GROUP BY cc.id, cc.title, cc.rating`,
+            [instructorName]
+        );
+        const courseList = courseListResult.rows;
+
+        res.render('performance', {
+            totalRevenue,
+            totalEnrollments,
+            averageRating,
+            activeCourses,
+            courseList
+        });
+    } catch (error) {
+        console.error('Error loading instructor dashboard:', error);
+        res.status(500).send('Server error');
+    }
+});
+
+app.get('/baat',(req,res)=>{
+    res.render('chat')
 })
+
+app.get('/chat/:courseId/:userId/:role', async (req, res) => {
+    const { courseId, userId, role } = req.params;
+  
+    try {
+      // Fetch user name based on role
+      let userName;
+      if (role === 'student') {
+        const result = await db.query('SELECT name FROM students WHERE id = $1', [userId]);
+        userName = result.rows[0]?.name || 'Student';
+      } else if (role === 'instructor') {
+        const result = await db.query('SELECT name FROM instructor WHERE id = $1', [userId]);
+        userName = result.rows[0]?.name || 'Instructor';
+      }
+  
+      // Fetch messages related to courseId
+      const messages = await db.query(
+        `SELECT message, date_time, user_id, role 
+         FROM messages 
+         WHERE course_id = $1 
+         ORDER BY date_time`,
+        [courseId]
+      );
+  
+      res.render('chat.ejs', {
+        userId,
+        courseId,
+        role,
+        userName,
+        messages: messages.rows,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Server Error');
+    }
+  });
+
+  // Assuming you have the necessary imports like express, pg for PostgreSQL, etc.
+
+app.get('/success', async (req, res) => {
+    const studentId = req.session.userId;  // Capture student ID from session
+    const paymentId = req.query.payment_id;  // Capture Razorpay payment ID
+  
+    try {
+      // Fetch all course IDs where published = true from created_courses
+      const result = await db.query(
+        'SELECT course_id FROM created_courses WHERE published = true'
+      );
+  
+      // Extract course IDs from the query result
+      const courseIds = result.rows.map(row => row.course_id);
+  
+      // Insert into courses_bought for each course and the student
+      for (let courseId of courseIds) {
+        await db.query(
+          'INSERT INTO courses_bought (student_id, course_id) VALUES ($1, $2)',
+          [studentId, courseId]
+        );
+      }
+  
+      // Optionally, you can handle updating the payment status in a payments table here
+  
+      // Redirect to a confirmation or success page after payment and database update
+      res.redirect('/payment-success'); // Or any success page
+    } catch (error) {
+      console.error('Error processing payment and saving courses:', error);
+      res.status(500).send('Internal Server Error');
+    }
+  });
 
 
 app.listen(port, () => {
