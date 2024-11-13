@@ -1152,45 +1152,53 @@ app.get('/performance', async (req, res) => {
     }
 });
 
-app.get('/baat',(req,res)=>{
-    res.render('chat')
-})
 
 app.get('/chat/:courseId/:userId/:role', async (req, res) => {
-    const { courseId, userId, role } = req.params;
-  
-    try {
-      
-      let userName;
-      if (role === 'student') {
-        const result = await db.query('SELECT name FROM students WHERE id = $1', [userId]);
-        userName = result.rows[0]?.name || 'Student';
-      } else if (role === 'instructor') {
-        const result = await db.query('SELECT name FROM instructor WHERE id = $1', [userId]);
-        userName = result.rows[0]?.name || 'Instructor';
-      }
-  
-      
-      const messages = await db.query(
-        `SELECT message, date_time, user_id, role 
-         FROM messages 
-         WHERE course_id = $1 
-         ORDER BY date_time`,
-        [courseId]
-      );
-  
-      res.render('chat.ejs', {
-        userId,
-        courseId,
-        role,
-        userName,
-        messages: messages.rows,
-      });
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Server Error');
+  const { courseId, userId, role } = req.params;
+
+  try {
+    // Fetch user name based on role for the current user
+    let userName;
+    if (role === 'student') {
+      const result = await db.query('SELECT name FROM students WHERE id = $1', [userId]);
+      userName = result.rows[0]?.name || 'Student';
+    } else if (role === 'instructor') {
+      const result = await db.query('SELECT name FROM instructor WHERE id = $1', [userId]);
+      userName = result.rows[0]?.name || 'Instructor';
     }
-  });
+
+    // Fetch messages related to courseId
+    const messages = await db.query(
+      `SELECT message, date_time, user_id, role 
+       FROM messages 
+       WHERE course_id = $1 
+       ORDER BY date_time`,
+      [courseId]
+    );
+
+    // Loop through messages to fetch and add the sender name
+    for (const msg of messages.rows) {
+      if (msg.role === 'student') {
+        const nameResult = await db.query('SELECT name FROM students WHERE id = $1', [msg.user_id]);
+        msg.name = nameResult.rows[0]?.name || 'Student';
+      } else if (msg.role === 'instructor') {
+        const nameResult = await db.query('SELECT name FROM instructor WHERE id = $1', [msg.user_id]);
+        msg.name = nameResult.rows[0]?.name || 'Instructor';
+      }
+    }
+
+    res.render('chat.ejs', {
+      userId,
+      courseId,
+      role,
+      userName,
+      messages: messages.rows,  // Each message will include the sender's name
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server Error');
+  }
+});
 
   
 
