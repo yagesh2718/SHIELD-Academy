@@ -165,7 +165,8 @@ button:hover{
     cursor: pointer;
     color: var(--bg-color);
 }
-}
+
+
 a{
     text-decoration: none;
 }
