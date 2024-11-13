@@ -73,36 +73,37 @@
 <%- include('partials/footer') %>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
-  document.getElementById('payButton').onclick = async () => {
-   
-    try {
+ document.getElementById('payButton').onclick = async () => {
+    // Declare amount and course_id variables
+    const amount = '<%= course.price %>'; // Amount in rupees
+    const courseId = '<%= course.id %>'; // Assuming course ID is passed to the template
 
-    const amount = '<%= course.price %>'; 
-    const courseId = '<%= course.id %>'; 
-
-    
+    // Assuming the student ID is available in the session (via EJS)
     const studentId = '<%= userId %>'; 
 
-      const response = await fetch('/createOrder', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-         body: JSON.stringify({ amount, courseId, studentId })
-      });
-      
-     
-      const { orderId, amount: amountInPaise } = await response.json();
+    try {
+        // Call server to create order
+        const response = await fetch('/createOrder', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ amount, courseId, studentId })
+        });
 
-     
-      const options = {
-        key: '<%= key_id %>', // Key ID passed from server
-        amount: amountInPaise, // Amount in paise
-        currency: 'INR',
-        name: 'S.H.I.E.L.D Academy',
-        description: 'Purchase Description',
-        image: "https://i.pinimg.com/474x/66/a2/bd/66a2bdf40cf67368f3f18488a46c3673.jpg",
-        order_id: orderId,
-        handler: function (response) {
-             fetch('/store-payment-info', {
+        // Parse response from server
+        const { orderId, amount: amountInPaise } = await response.json();
+
+        // Razorpay options
+        const options = {
+            key: '<%= key_id %>', // Key ID passed from server
+            amount: amountInPaise, // Amount in paise
+            currency: 'INR',
+            name: 'S.H.I.E.L.D Academy',
+            description: 'Purchase Description',
+            image: "https://i.pinimg.com/474x/66/a2/bd/66a2bdf40cf67368f3f18488a46c3673.jpg",
+            order_id: orderId,
+            handler: function (response) {
+                // Send payment details to the server to store in courses_bought table
+                fetch('/store-payment-info', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -113,27 +114,28 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-         
-          window.location.href = `/success?payment_id=${response.razorpay_payment_id}`;
-})
+                    // Redirect to success page with payment ID
+                    window.location.href = `/success?payment_id=${response.razorpay_payment_id}`;
+                })
                 .catch(error => {
                     console.error('Error storing payment info:', error);
                 });
-        },
-        prefill: {
-          name: 'Vivek Singh',
-          email: 'vs6189874@gmail.com',
-          contact: '7464968344',
-        },
-        theme: { color: '#0000FF' },
-      };
+            },
+            prefill: {
+                name: 'Vivek Singh',
+                email: 'vs6189874@gmail.com',
+                contact: '7464968344',
+            },
+            theme: { color: '#0000FF' },
+        };
 
-      const rzp = new Razorpay(options);
-      rzp.open();
+        const rzp = new Razorpay(options);
+        rzp.open();
     } catch (error) {
-      console.error('Error initiating payment:', error);
+        console.error('Error initiating payment:', error);
     }
-  };
+};
+
 </script>
 </body>
 </html>
