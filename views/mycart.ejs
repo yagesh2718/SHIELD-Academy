@@ -48,7 +48,7 @@
             </div>
             <div class="bcc-btns-y">
                 
-                    <button class="bccb-buy-y  payButton"  data-amount="799" >Buy</button>
+                    <button class="bccb-buy-y  payButton"  data-amount="<%= item.price %>" data-course-id="<%= item.id %>">Buy</button>
                 
                 <form action="/remove-from-cart/<%= item.id %>" method="POST">
                     <button type="submit" class="bccb-remove-y">Remove</button>
@@ -63,38 +63,43 @@
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script>
 document.getElementById('payButton1').onclick = async () => {
-    // Declare amount variable with a value
-    const amount = 499; // Amount in rupees
-
+   
+   
     try {
-      // Call server to create order
-      const response = await fetch('/createOrder', {
+      
+       const cartResponse = await fetch('/getCartTotal', { method: 'GET' });
+      const { amount } = await cartResponse.json();
+
+     
+      const orderResponse = await fetch('/createOrder', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ amount })
       });
       
-      // Parse response from server
-      const { orderId, amount: amountInPaise } = await response.json();
+      
+      const { orderId, amount: amountInPaise } = await orderResponse.json();
 
-      // Razorpay options
+      
       const options = {
-        key: '<%= key_id %>', // Key ID passed from server
-        amount: amountInPaise, // Amount in paise
+        key: '<%= key_id %>', 
+        amount: amountInPaise,
         currency: 'INR',
         name: 'S.H.I.E.L.D Academy',
         description: 'Purchase Description',
         image: "https://i.pinimg.com/474x/66/a2/bd/66a2bdf40cf67368f3f18488a46c3673.jpg",
         order_id: orderId,
-        handler: function (response) {
-          // Redirect to success page with payment ID
+        handler: async function (response) {
+          await fetch('/updatePurchasedCourses', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ paymentId: response.razorpay_payment_id })
+          });
           window.location.href = `/success?payment_id=${response.razorpay_payment_id}`;
         },
-        prefill: {
-          name: 'Vivek Singh',
-          email: 'vs6189874@gmail.com',
-          contact: '7464968344',
-        },
+        
+            prefill: { name: 'Vivek Singh', email: 'vs6189874@gmail.com', contact: '7464968344' },
+        
         theme: { color: '#0000FF' },
       };
 
@@ -110,8 +115,8 @@ document.getElementById('payButton1').onclick = async () => {
 
  document.querySelectorAll('.payButton').forEach(button => {
       button.onclick = async () => {
-        // Get the amount from the data attribute or default to 500
-        const amount = button.getAttribute('data-amount') || 500; // Amount in rupees
+       
+      const courseId = button.getAttribute('data-course-id');
 
         try {
           // Call server to create order
@@ -121,10 +126,10 @@ document.getElementById('payButton1').onclick = async () => {
             body: JSON.stringify({ amount })
           });
           
-          // Parse response from server
+          
           const { orderId, amount: amountInPaise } = await response.json();
 
-          // Razorpay options
+        
           const options = {
             key: '<%= key_id %>', // Key ID passed from server
             amount: amountInPaise, // Amount in paise
@@ -133,8 +138,13 @@ document.getElementById('payButton1').onclick = async () => {
             description: 'Purchase Description',
             image: "https://i.pinimg.com/474x/66/a2/bd/66a2bdf40cf67368f3f18488a46c3673.jpg",
             order_id: orderId,
-            handler: function (response) {
-              // Redirect to success page with payment ID
+            handler:aync function (response) {
+              await fetch('/updatePurchasedCourses2', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ paymentId: response.razorpay_payment_id, courseId })
+          });
+
               window.location.href = `/success?payment_id=${response.razorpay_payment_id}`;
             },
             prefill: {
