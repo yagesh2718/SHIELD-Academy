@@ -115,30 +115,31 @@ document.getElementById('payButton1').onclick = async () => {
 
  document.querySelectorAll('.payButton').forEach(button => {
       button.onclick = async () => {
-       
-      const courseId = button.getAttribute('data-course-id');
+    // Get the amount and course ID from data attributes
+    const amount = button.getAttribute('data-amount') || 500; // Amount in rupees
+    const courseId = button.getAttribute('data-course-id'); // Course ID
 
-        try {
-          // Call server to create order
-          const response = await fetch('/createOrder', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ amount })
-          });
-          
-          
-          const { orderId, amount: amountInPaise } = await response.json();
+    try {
+      // Call server to create order
+      const response = await fetch('/createOrder', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount })
+      });
+      
+      // Parse response from server
+      const { orderId, amount: amountInPaise } = await response.json();
 
-        
-          const options = {
-            key: '<%= key_id %>', // Key ID passed from server
-            amount: amountInPaise, // Amount in paise
-            currency: 'INR',
-            name: 'S.H.I.E.L.D Academy',
-            description: 'Purchase Description',
-            image: "https://i.pinimg.com/474x/66/a2/bd/66a2bdf40cf67368f3f18488a46c3673.jpg",
-            order_id: orderId,
-            handler:aync function (response) {
+      // Razorpay options
+      const options = {
+        key: '<%= key_id %>', // Key ID passed from server
+        amount: amountInPaise, // Amount in paise
+        currency: 'INR',
+        name: 'S.H.I.E.L.D Academy',
+        description: 'Purchase Description',
+        image: "https://i.pinimg.com/474x/66/a2/bd/66a2bdf40cf67368f3f18488a46c3673.jpg",
+        order_id: orderId,
+        handler: async function (response) {
               await fetch('/updatePurchasedCourses2', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
