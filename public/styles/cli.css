@@ -22,7 +22,6 @@
   
 .courselayout-y{
     display: flex;
-    background-color: var(--bg-color);
     background-image: url('/images/shieldlogo.jpeg');
     background-repeat: no-repeat;
     background-position: center;
