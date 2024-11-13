@@ -89,7 +89,7 @@
     margin-top: 50px;
     width: 50%;
 }
-/* Revenue Section */
+
 .revenue-card-v {
     background: var(--gradient-2);
     padding: 20px;
@@ -119,7 +119,7 @@
 
 
 
-/* Metrics Section */
+
 .metrics-v {
     display: flex;
     gap: 20px;
@@ -159,7 +159,6 @@
 
 
 
-/* Course Card */
 .courses-v h2 {
     color: var(--accent-color);
     text-align: center;
@@ -206,7 +205,7 @@
     margin: 5px 0;
 }
 
-/* Course Section */
+
 .courses-v h2 {
     font-size: var(--font-size-header);
     text-align: center;
@@ -276,5 +275,12 @@
     flex: 1 1 45%;
     margin: 5px 0;
     font-family: var(--font-1-family);
+}
+
+.courses-v h2{
+    font-size: 50px;
+    color: var(--six-color);
+    font-family: var(--font-2-family);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
 }
 
