@@ -3,7 +3,7 @@
     --light-blue-v: #4a90e2;
     --text-light-v: #ffffff;
     --text-gray-v: #c0c0c0;
-    --logo-size-v: 80px; /* Size of the logo */
+    --logo-size-v: 80px; 
     --border-radius-v: 10px;
 }
 
@@ -18,7 +18,7 @@ body {
 }
 
 .certificate-container-v {
-    position: relative; /* Allows absolute positioning of the logo inside */
+    position: relative; 
     background-color: var(--light-blue-v);
     width: 80%;
     max-width: 900px;
