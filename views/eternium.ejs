@@ -1,11 +1,10 @@
-<%- include('partials/header') %>
 
 <head>
     <link rel="stylesheet" href="/styles/eternium.css"> 
 </head>
 <body>
     
-    <%- include('partials/header') %>
+   
 <div class="master-sub-y">
     <div class="ms-left-y">
         <p>Unlock endless learning with the S.H.I.E.L.D. Academy ETERNIUM Subscription! Get unlimited access to all courses, master new skills, and level up your career—all in one powerful membership. Don’t just learn, become ETERNAL with S.H.I.E.L.D. Academy!</p>
@@ -25,35 +24,35 @@
     </div>
 </div>
 
-<%- include('partials/footer') %>
+
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
   document.getElementById('payButton').onclick = async () => {
-    // Declare amount variable with a value
-    const amount = 2000; // Amount in rupees
+    
+    const amount = 2000; 
 
     try {
-      // Call server to create order
+      
       const response = await fetch('/createOrder', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ amount })
       });
       
-      // Parse response from server
+      
       const { orderId, amount: amountInPaise } = await response.json();
 
-      // Razorpay options
+      
       const options = {
-        key: '<%= key_id %>', // Key ID passed from server
-        amount: amountInPaise, // Amount in paise
+        key: '<%= key_id %>', 
+        amount: amountInPaise, 
         currency: 'INR',
         name: 'S.H.I.E.L.D Academy',
         description: 'Purchase Description',
         image: "https://i.pinimg.com/474x/66/a2/bd/66a2bdf40cf67368f3f18488a46c3673.jpg",
         order_id: orderId,
         handler: function (response) {
-          // Redirect to success page with payment ID
+          
           window.location.href = `/success?payment_id=${response.razorpay_payment_id}`;
         },
         prefill: {
