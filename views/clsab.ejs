@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="/styles/clsbb.css">
 </head>
 <body>
+<%- include("partials/header.ejs") %>
 <div class="courselayout-y">
     <div class="side-bar-y">
         <a href="/cosab/<%= course.id %>" class="overview-y course-part-y">Overview</a>
@@ -46,12 +47,15 @@
                     <% } %>
                 </div>
                 <div class="rfc-price-y">$<%= course.price %></div>
+<a href="/chat/<%= course.id %>/<%= userId %>/student" class="chat-button">
+                    <button>Join Chat</button>
+                </a>
             </div>
         </div>
     </div>
 </div>
 <%- include("partials/footer.ejs") %>
 <script src="/socket.io/socket.io.js"></script>
-<script src="main.js"></script>
+<script src="/scripts/chat.js"></script>
 </body>
 </html>
