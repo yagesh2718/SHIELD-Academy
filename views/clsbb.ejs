@@ -74,21 +74,25 @@
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
   document.getElementById('payButton').onclick = async () => {
-    // Declare amount variable with a value
-    const amount = 2000; // Amount in rupees
-
+   
     try {
-      // Call server to create order
+
+    const amount = '<%= course.price %>'; 
+    const courseId = '<%= course.id %>'; 
+
+    
+    const studentId = '<%= userId %>'; 
+
       const response = await fetch('/createOrder', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount })
+         body: JSON.stringify({ amount, courseId, studentId })
       });
       
-      // Parse response from server
+     
       const { orderId, amount: amountInPaise } = await response.json();
 
-      // Razorpay options
+     
       const options = {
         key: '<%= key_id %>', // Key ID passed from server
         amount: amountInPaise, // Amount in paise
@@ -98,8 +102,23 @@
         image: "https://i.pinimg.com/474x/66/a2/bd/66a2bdf40cf67368f3f18488a46c3673.jpg",
         order_id: orderId,
         handler: function (response) {
-          // Redirect to success page with payment ID
+             fetch('/store-payment-info', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        payment_id: response.razorpay_payment_id,
+                        course_id: courseId,
+                        student_id: studentId
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+         
           window.location.href = `/success?payment_id=${response.razorpay_payment_id}`;
+})
+                .catch(error => {
+                    console.error('Error storing payment info:', error);
+                });
         },
         prefill: {
           name: 'Vivek Singh',
