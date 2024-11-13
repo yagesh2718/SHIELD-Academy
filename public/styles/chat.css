@@ -1,0 +1,176 @@
+@import url('https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&family=Righteous&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+:root {
+    --bg-color:#091057;
+    --txt-color: #CBDCEB;
+    --pri-color: #a9d0ff;
+    --sec-color: #F3F3E0;
+    --thi-color: #133E87;
+    --fou-color:  #0e316de1;
+    --fif-color: yellow;
+    --six-color: cyan;
+    --sev-color: aquamarine;  
+    --eig-color: white;  
+    --gradient-1:  linear-gradient(45deg, #0c3d86, #1564b3, #3483c4);
+    --gradient-2:linear-gradient(45deg,#3483c4,#1564b3,#0c3d86);
+    --font-1-family: "DynaPuff", system-ui;
+    --font-2-family:"Righteous";
+  }
+
+body {
+  font-family: var(--font-2-family);
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; */
+  display: grid;
+  place-items: center;
+  background-image: url('/images/shieldlogo.jpeg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.title {
+  margin: 20px 0;
+  
+}
+
+
+.main {
+  border: 2px solid var(--sec-color);
+  border-radius: 20px;
+  overflow: hidden;
+  
+}
+
+.name {
+  display: flex;
+  font-size: 32px;
+  font-weight: 700;
+  padding: 8px 16px;
+  color: #7e7e7e;
+  background-color: var(--bg-color);
+}
+
+.name > span {
+  color: #bbb;
+}
+
+.name-input {
+  font-size: 24px;
+  font-weight: 700;
+  color: #7e7e7e;
+  flex-grow: 1;
+  border: none;
+  margin: 0px 12px;
+  outline: none;
+  background-color: var(--bg-color);
+}
+
+.message-container {
+  display: flex;
+  flex-direction: column;
+  background: var(--gradient-2);
+  width: 80vw;
+  height: 60vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.message-left,
+.message-right {
+  list-style: none;
+  padding: 8px 12px;
+  margin: 12px;
+  max-width: 250px;
+  font-size: 18px;
+  word-wrap: break-word;
+}
+
+.message-left {
+  border-radius: 20px 20px 20px 0px;
+  align-self: flex-start;
+  background-color: var(--pri-color);
+  box-shadow: -2px 2px 4px #dcdcdc;
+  color: var(--bg-color);
+  font-size: 30px;
+}
+
+.message-right {
+  border-radius: 20px 20px 0px 20px;
+  align-self: flex-end;
+  background-color: var(--thi-color);
+  box-shadow: 2px 2px 4px #dcdcdc;
+  color: var(--eig-color);
+  font-size: 30px;
+}
+
+.message-left > p > span,
+.message-right > p > span {
+  display: block;
+  font-style: italic;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.feedback {
+  font-style: italic;
+  font-size: 14px;
+  padding: 0px 16px 16px 16px;
+  color: #2d2d2d;
+  text-align: center;
+}
+
+.message-form {
+  display: flex;
+  justify-content: space-between;
+  width: 80vw;
+}
+
+.message-input {
+  flex-grow: 1;
+  height: 48px;
+  font-size: 25px;
+  border: none;
+  outline: none;
+  padding: 0 12px;
+  background-color: #fff;
+  color: var(--sec-color);
+  font-family: var(--font-2-family);
+}
+
+.send-button {
+  height: 48px;
+  font-size: 25px;
+  border: none;
+  padding: 0px 20px;
+  outline: none;
+  background-color: var(--six-color);
+  color: var(--bg-color);
+  cursor: pointer;
+  font-family: var(--font-2-family);
+}
+
+.v-divider {
+  height: 48px;
+  width: 2px;
+  background-color: #f6f6f6;
+}
+
+
+h1{
+  scale: 2;
+  margin-top: 20px;
+  color: var(--sev-color);
+}
+.main input{
+  background-color: var(--bg-color);
+  color: var(--sec-color);
+  font-size: 30px;
+}
