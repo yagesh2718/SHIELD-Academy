@@ -193,3 +193,38 @@
   .star-icon-v {
     color: var(--hover-color);
   }
+
+
+.course-card-v{
+    height: 65vh;
+    display: flex;
+    flex-direction: column;
+    
+    padding: 20px;
+  }
+  .course-card-v img{
+    border-radius: 10px;
+  }
+  .course-card-v p{
+    font-size: 15px;
+    padding-top: 5px;
+  }
+  .course-card-v strong{
+    font-weight: 300;
+    font-size: 15px;
+    color: var(--six-color);
+  }
+  .course-card-v h3{
+    font-weight: 300;
+    color: var(--eig-color);
+    padding-top: 10px;
+  }
+  .course-card-v .rating{
+    color: var(--fif-color);
+  }
+  .search-v{
+    font-family: var(--font-1-family);
+  }
+  a{
+    text-decoration: none;
+  }
