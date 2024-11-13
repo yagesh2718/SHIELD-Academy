@@ -79,7 +79,8 @@
     border-radius: 50px;
     border: 2px solid var(--sec-color);
     font-family: var(--font-1-family);
-    height: 85vh;
+     height: 75vh;
+    padding: 20px;
 }
 .b-course-photo-y{
     display: flex;
@@ -184,6 +185,7 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+    height: fit-content;
 }
 .b-course-card-y:hover{
     background: var(--gradient-2);
@@ -204,4 +206,8 @@ a{
 }
 .bch-txt-y{
     font-size: 25px;
+}
+.r-course-card{
+    height: 55vh;
+    padding: 20px;
 }
