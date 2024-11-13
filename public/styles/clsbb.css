@@ -174,7 +174,17 @@ a{
     background-size: cover;
     border-radius: 10px;
 }
-
+.chat-button button{
+    background-color: var(--bg-color);
+    padding: 10px;
+    border-radius: 10px;
+    color: var(--sec-color);
+    font-family: var(--font-1-family);
+}
+.chat-button button:hover{
+    background-color: var(--pri-color);
+    color: var(--bg-color);
+}
   
   @media (min-width: 768px) and (max-width: 1279px) {
     .lfc-heading-y{
