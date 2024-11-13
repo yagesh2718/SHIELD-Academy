@@ -23,13 +23,14 @@
                 </button>
             </div>
 
-            <!-- Course List -->
+            
             <div class="course-list-v" id="courseList-v">
                 <% courses.forEach(course => { %>
                     <a href="/course-overview/<%= course.id %>" class="course-card-v"> <!-- Wrap each course item in an anchor tag -->
                         <div class="course-item-v">
                             <h3><%= course.title %></h3>
                             <p><strong>Level:</strong> <%= course.level %></p>
+                            <p><strong>Category:</strong> <%= course.category %></p>
                             <p><strong>Price:</strong> $<%= course.price %></p>
                         </div>
                     </a>
