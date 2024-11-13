@@ -168,3 +168,6 @@
   .to-block{
     display: block;
   }
+  .data-entry{
+    font-family: var(--font-1-family);
+  }
