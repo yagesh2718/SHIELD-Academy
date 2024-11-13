@@ -1,1 +1,126 @@
+<!-- chat.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+      integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/styles/chat.css" />
+    <title>Chat app</title>
+  </head>
+  <body>
+    <h1 class="title">Chat 💬</h1>
+    <div class="main">
+        <div class="name" id="userchat" data-useramount="<%= userId %>" data-courseamount="<%= courseId %>" data-roleamount="<%=role%>">
+        <span><i class="far fa-user"></i></span>
+        <input
+  type="text"
+  id="name-input"
+  class="name-input"
+  value="<%= userName %>"
+  maxlength="20"
+  readonly
+/>
+
+      </div>
+
+      <ul class="message-container" id="message-container">
+        <% messages.forEach((msg) => { %>
+          <li class="<%= msg.user_id === userId ? 'message-right' : 'message-left' %>">
+            <p class="message">
+              <%= msg.message %>
+              <span><%= userName %> ● <%=msg.date_time %></span>
+            </p>
+          </li>
+        <% }) %>
+      </ul>
+      
+
+      <form class="message-form" id="message-form" autocomplete="off">
+        <input
+          type="text"
+          name="message"
+          id="message-input"
+          class="message-input"
+        />
+        <div class="v-divider"></div>
+        <button type="submit" class="send-button">
+          send <span><i class="fas fa-paper-plane"></i></span>
+        </button>
+      </form>
+    </div>
+    
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.28.0/moment.min.js"
+      integrity="sha512-Q1f3TS3vSt1jQ8AwP2OuenztnLU6LwxgyyYOG1jgMW/cbEMHps/3wjvnl1P3WTrF3chJUWEoxDUEjMxDV8pujg=="
+      crossorigin="anonymous"
+    ></script>
+    <script src="/scripts/chat.js"></script>
+    <script>
+        const socket = io();
+      const messageContainer = document.getElementById('message-container');
+      const nameInput = document.getElementById('name-input');
+      const messageForm = document.getElementById('message-form');
+      const messageInput = document.getElementById('message-input');
+      const userChatDiv = document.getElementById('userchat');
+
+// Access the data attributes
+const user_Id = userChatDiv.dataset.useramount;
+const course_Id = userChatDiv.dataset.courseamount;
+
+console.log("User ID:", user_Id);
+console.log("Course ID:", course_Id);
+
+      messageForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        sendMessage();
+      });
+
+      function sendMessage() {
+        
+        if (messageInput.value === '') return;
+        const data = {
+          userid : user_Id,   
+          courseid : course_Id, 
+          name: nameInput.value,
+          message: messageInput.value,
+          dateTime: new Date(),
+        };
+        console.log(data)
+        socket.emit('message', data);
+        addMessageToUI(true, data);
+        messageInput.value = '';
+      }
+
+      socket.on('chat-message', (data) => {
+        addMessageToUI(false, data);
+      });
+
+      function addMessageToUI(isOwnMessage, data) {
+  const element = `
+    <li class="${isOwnMessage ? 'message-right' : 'message-left'}">
+      <p class="message">
+        ${data.message}
+        <span>${data.role === 'student' ? 'Student' : 'Instructor'} ● ${moment(data.dateTime).fromNow()}</span>
+      </p>
+    </li>
+  `;
+
+  messageContainer.innerHTML += element;
+  scrollToBottom();
+}
+
+      function scrollToBottom() {
+        messageContainer.scrollTo(0, messageContainer.scrollHeight);
+      }
+    </script>
+  </body>
+</html>
 
