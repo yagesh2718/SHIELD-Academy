@@ -4,27 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="/styles/header-v.css">
+    <link rel="stylesheet" href="/styles/header.css">
 </head>
 <body>
     <div class="headerv-v">
-        <img src="/images/logo.png" id="logo-v">
+        <img src="/images/shield-academy-logo.png" id="logo-v">
         <div class="navbar-v">
             <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/courses">My Courses</a></li>
-                <li><a href="/cart">My Cart</a></li>
-                <li><a href="/wishlist">Wishlist</a></li>
-                <li><a href="/subs">Super Power</a></li>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/my-courses">My Courses</a></li>
+                <li><a href="/my-cart">My Cart</a></li>
+                <li><a href="/my-wishlist">Wishlist</a></li>
+                <li><a href="/eternium">Eternium</a></li>
             </ul>
             <div class="profilev-v" onclick="toggleProfileDropdown()">
-                <img src="/images/placeholder.jpeg">
+                <img src="/images/profile-pic.webp">
                 <div class="profile-dropdown-v" id="profileDropdown-v">
-                    <div><strong>Name:</strong> John Doe</div>
-                    <div><strong>Username:</strong> johndoe123</div>
-                    <div><strong>Email:</strong> johndoe@example.com</div>
+                    <div><strong>Name:</strong> <%= user.name %></div>
+                    <div><strong>Email:</strong> <%= user.email %></div>
+                    <a href="/logout"><button class="logout-btn">Logout</button></a>
                 </div>
             </div>
+            
+            
+            
         </div>
     </div>
 </body>
