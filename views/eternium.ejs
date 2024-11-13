@@ -26,6 +26,27 @@
 
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+ document.getElementById('payButton').onclick = async () => {
+  const amount = 2000; // Amount in rupees
+
+  try {
+    const response = await fetch('/createOrder', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount }),
+    });
+
+    const { orderId, amount: amountInPaise } = await response.json();
+
+    const options = {
+      key: '<%= key_id %>',
+      amount: amountInPaise,
+      currency: 'INR',
+      name: 'S.H.I.E.L.D Academy',
+      description: 'Eternium',
+      image: "https://i.pinimg.com/474x/66/a2/bd/66a2bdf40cf67368f3f18488a46c3673.jpg",
+      order_id: orderId,
 handler: async function (response) {
         try {
           // Get userId from the session or token
@@ -48,7 +69,7 @@ handler: async function (response) {
       },
       prefill: {
         name: 'Vivek Singh',
-        email: 'vs6189874@gmail.com',
+        email: 'yashjha2718@gmail.com',
         contact: '7464968344',
       },
       theme: { color: '#0000FF' },
