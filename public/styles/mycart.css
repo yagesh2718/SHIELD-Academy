@@ -133,6 +133,6 @@ button:hover{
     color: var(--six-color);
 }
 a {
-    text-decoration: none; /* Remove underline from all anchor tags */
+    text-decoration: none;
 }
 
