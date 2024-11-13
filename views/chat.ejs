@@ -31,10 +31,10 @@
 
       <ul class="message-container" id="message-container">
         <% messages.forEach((msg) => { %>
-          <li class="<%= msg.user_id === userId ? 'message-right' : 'message-left' %>">
+          <li class="<%= msg.name === userName ? 'message-right' : 'message-left' %>">
             <p class="message">
               <%= msg.message %>
-              <span><%= userName %> ● <%=msg.date_time %></span>
+              <span><%= msg.name %> ● <%=msg.date_time %></span>
             </p>
           </li>
         <% }) %>
