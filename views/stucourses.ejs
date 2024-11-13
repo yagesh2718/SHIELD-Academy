@@ -59,14 +59,14 @@
     </div>
     <div class="recommended-courses-y">
         <% recommendedCourses.forEach(recCourse => { %> 
-            <div class="b-course-card-y">
-                <div class="b-course-photo-y">
-                    <a href="/course-overview/<%= recCourse.id %>"> 
-                        <img src="<%= recCourse.imageUrl %>" alt="" width="300px" class="bc-pic-y">
-                    </a>
-                </div>
-                <div class="b-course-heading-y">
-                    <a href="/course-overview/<%= recCourse.id %>" class="course-title-y"> 
+            <div class="b-course-card-y r-course-card" >
+                    <div class="b-course-photo-y">
+                        <a href="/cosbb/<%= recCourse.id %>"> 
+                            <img src="<%= recCourse.thumbnail %>" alt="" width="300px" class="bc-pic-y">
+                        </a>
+                    </div>
+                    <div class="b-course-heading-y">
+                        <a href="/cosbb/<%= recCourse.id %>" class="course-title-y"> 
                         <p class="bch-txt-y"><%= recCourse.title %></p>
                     </a>
                 </div>
