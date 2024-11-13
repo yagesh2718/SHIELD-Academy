@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Instructor Dashboard</title>
     <link rel="stylesheet" href="/styles/performance.css">
 </head>
 <body>
-    <%- include("partials/header-i.ejs") %>
+    
     <div class="banner-v">
-        <img src="/images/nick-fury-banner.png">
+          <img src="/images/nick-fury-banner.png" alt="Banner Image">
         <h1>"Empower the next generation of heroes—your knowledge and skills are the foundation of their strength. Every course you create builds a future where courage, resilience, and wisdom shape a safer world. Lead boldly, inspire deeply, and watch as your legacy shapes S.H.I.E.L.D.’s finest."</h1>
     </div>
 
@@ -20,38 +20,57 @@
         </div>
 
 <div class="pcontainer-v">
-         <!-- Dashboard -->
+         
          <div class="dashboard-v">
-            <!-- Total Revenue Card -->
+            
             <div class="revenue-card-v">
                 <h2>Total Revenue</h2>
-                <p class="revenue-amount-v">$12,345</p>
+                  <p class="revenue-amount-v">$<%= totalRevenue %></p>
                 <small>All-time earnings</small>
             </div>
 
-            <!-- Key Metrics -->
+            
             <div class="metrics-v">
                 <div class="metric-card-v">
                     <h3>Total Enrollments</h3>
-                    <p class="metric-value-v">1,250</p>
+                      <p class="metric-value-v"><%= totalEnrollments %></p>
                 </div>
                 <div class="metric-card-v">
                     <h3>Average Rating</h3>
-                    <p class="metric-value-v">4.5 ★</p>
+                    <p class="metric-value-v">  <% if (typeof averageRating === 'number') { %>
+                                <%= averageRating.toFixed(1) %> ★
+                            <% } else { %>
+                                N/A
+                            <% } %></p>
                 </div>
                 
                 <div class="metric-card-v">
                     <h3>Active Courses</h3>
-                    <p class="metric-value-v">12</p>
+                    <p class="metric-value-v">%= activeCourses %></p>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="courses-v">
-        <h2></h2>
-        <div id="course-list-v" class="course-list-v">
-            <!-- Course cards will be dynamically injected here by JavaScript -->
+        <h2>Your courses</h2>
+        <div id="course-list-v" class="course-list-v">  <% courseList.forEach(course => { %>
+                    <div class="course-card-v">
+                        <h3><%= course.title %></h3>
+                        <div class="course-info-v">
+                            <p><strong>Avg Rating:</strong> 
+                                <% if (typeof course.rating === 'number') { %>
+                                    <%= course.rating.toFixed(1) %> 
+                                <% } else { %>
+                                    N/A
+                                <% } %>
+                            </p>
+                            <p><strong>Enrollments:</strong> <%= course.enrollments %></p>
+                            <p><strong>Revenue:</strong> $<%= course.revenue %></p>
+                        </div>
+                    </div>
+                <% }) %>
+           
         </div>
     </div>
     
@@ -61,7 +80,5 @@
 
     </div>
     <%-  include("partials/footer-i.ejs") %>
-    <script src="/scripts/courses.js"></script>
-    <script src="/scripts/imain.js"></script>
 </body>
 </html>
