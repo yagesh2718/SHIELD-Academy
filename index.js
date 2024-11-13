@@ -471,7 +471,7 @@ app.post('/course-overview', upload.single('thumbnail'), async (req, res) => {
 app.get("/course-overview/:courseId", async (req, res) => {
     const courseId = req.params.courseId;
     course_id = courseId
-
+    let user_id = req.session.userId
     try {
         const courseResult = await db.query(
             "SELECT * FROM created_courses WHERE id = $1;",
@@ -494,7 +494,7 @@ app.get("/course-overview/:courseId", async (req, res) => {
             const instructorEmail = instructorResult.rows[0].email;
 
             const sections = sectionsResult.rows;
-            res.render("cli", { course, sections ,instructorName,instructorEmail });
+            res.render("cli", { course, sections ,instructorName,instructorEmail ,user_id});
         } else {
             res.status(404).send("Course not found");
         }
@@ -626,7 +626,7 @@ app.get("/cosab/:courseId", async (req, res) => {
             );
 
             const sections = sectionsResult.rows;
-            res.render("clsbb", { course, userId , sections , user ,key_id: 'rzp_test_tdhd9eKtsQISvp' });
+           res.render("clsab", { course, sections,user,userId });
         } else {
             res.status(404).send("Course not found");
         }
@@ -987,14 +987,14 @@ console.log("category:",lastCategory)
 let recommendedCourses = [];
 if (lastCategory) {
 const recommendedCoursesQuery = `
-SELECT c.id, c.title, c.thumbnail AS imageUrl, c.price, c.level, c.instructor
+SELECT c.id, c.title, c.thumbnail , c.price, c.level, c.instructor , c.rating
 FROM created_courses c
 WHERE c.category = $1 
   AND c.id NOT IN (SELECT course_id FROM courses_bought WHERE student_id = $2)
 `;
 
 const recommendedCoursesResult = await db.query(recommendedCoursesQuery, [lastCategory, studentId]);
-const recommendedCourses = recommendedCoursesResult.rows;
+recommendedCourses = recommendedCoursesResult.rows;
 console.log("recommended ",recommendedCourses)
 
 }
@@ -1194,37 +1194,43 @@ app.get('/chat/:courseId/:userId/:role', async (req, res) => {
 
   
 
-app.get('/success', async (req, res) => {
-    const studentId = req.session.userId;  // Capture student ID from session
-    const paymentId = req.query.payment_id;  // Capture Razorpay payment ID
+app.post('/completePayment', async (req, res) => {
+    const { paymentId } = req.body;
+    const userId = req.session.userId
   
     try {
-      
-      const result = await db.query(
-        'SELECT course_id FROM created_courses WHERE published = true'
-      );
+      // Get the courses with published = true
+      const coursesResult = await db.query('SELECT id FROM created_courses WHERE published = true');
+      const courses = coursesResult.rows;
   
-      
-      const courseIds = result.rows.map(row => row.course_id);
+      // Prepare a list of course IDs to insert into courses_bought
+      const courseIds = courses.map(course => course.id);
   
-      
-      for (let courseId of courseIds) {
-        await db.query(
-          'INSERT INTO courses_bought (student_id, course_id) VALUES ($1, $2)',
-          [studentId, courseId]
+      // Insert courses into courses_bought, skipping duplicates
+      const insertPromises = courseIds.map(async (courseId) => {
+        const existingCourseResult = await db.query(
+          'SELECT * FROM courses_bought WHERE student_id = $1 AND course_id = $2',
+          [userId, courseId]
         );
-      }
   
-      
+        if (existingCourseResult.rows.length === 0) {
+          await db.query(
+            'INSERT INTO courses_bought (student_id, course_id) VALUES ($1, $2)',
+            [userId, courseId]
+          );
+        }
+      });
   
-      
-      res.redirect('/payment-success');
+      // Wait for all insert operations to complete
+      await Promise.all(insertPromises);
+  
+      // Respond with success
+      res.json({ success: true });
     } catch (error) {
-      console.error('Error processing payment and saving courses:', error);
-      res.status(500).send('Internal Server Error');
+      console.error('Error completing payment:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
   });
-
 
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
