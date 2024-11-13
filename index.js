@@ -16,12 +16,12 @@ import { Server } from 'socket.io';
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-// Create the server
+
 const server = createServer(app);
 
 const io = new Server(server);
 
-app.use(express.static('public'));  // Serve static files from the 'public' folder
+app.use(express.static('public'));  
 
 
 server.listen(PORT, () => {
@@ -34,7 +34,7 @@ io.on('connection', (socket) => {
     socket.on('message', async (data) => {
         console.log('Message received:', data);
       
-        // Insert message into the database
+        
         const insertQuery = `
           INSERT INTO messages (user_id, course_id, message, date_time,role)
     VALUES ($1, $2, $3, $4, $5)
@@ -42,7 +42,7 @@ io.on('connection', (socket) => {
         const values = [data.userid, data.courseid, data.message, data.dateTime , data.role];
         await db.query(insertQuery, values);
       
-        // Broadcast the message to all other clients (excluding the sender)
+        
         socket.broadcast.emit('chat-message', data);
       });
       
@@ -74,8 +74,8 @@ app.use(bodyParser.json());
 const port = 3000;
 
 const razorpayInstance = new Razorpay({
-    key_id: 'rzp_test_tdhd9eKtsQISvp', // Replace with your actual Razorpay key ID
-    key_secret: 'xjIjJAAcAE0fgILJm5ayJNjf', // Replace with your actual Razorpay key secret
+    key_id: 'rzp_test_tdhd9eKtsQISvp', 
+    key_secret: 'xjIjJAAcAE0fgILJm5ayJNjf', 
   });
 
 
@@ -141,7 +141,7 @@ async function authenticateUser(email, password, role) {
 
 
 app.get('/eternium', (req, res) => {
-    res.render('eternium', { key_id: 'rzp_test_tdhd9eKtsQISvp' }); // Pass the key_id to client side
+    res.render('eternium', { key_id: 'rzp_test_tdhd9eKtsQISvp' }); 
   });
 
 
@@ -159,28 +159,11 @@ app.get('/eternium', (req, res) => {
     }
   });
   
-  // Route for Payment Success page
+  
   app.get('/success', (req, res) => {
     res.render('success', { paymentId: req.query.payment_id });
   });
   
-  // Start the server
-//   const PORT = process.env.PORT || 3000;
-//   app.listen(PORT, () => {
-//     console.log(`Server running on http://localhost:${PORT}`);
-//   });
-
-
-
-
-
-
-
-
-
-
-
-
   
   app.get('/', (req, res) => {
     res.redirect('/login');
@@ -211,10 +194,10 @@ app.get('/eternium', (req, res) => {
   });
   
   app.get('/instructor-home', async (req, res) => {
-    const instructorId = req.session.userId; // Replace this with your logic to get the logged-in instructor's ID
+    const instructorId = req.session.userId; 
     console.log('id:',instructorId)
     try {
-        // Step 1: Get the instructor's name from the instructor table
+        
         const instructorResult = await db.query(
             `SELECT name,email FROM instructor WHERE id = $1;`,
             [instructorId]
@@ -227,7 +210,7 @@ app.get('/eternium', (req, res) => {
         const instructorName = instructorResult.rows[0].name;
         const instructorEmail = instructorResult.rows[0].email;
         console.log(instructorEmail);
-        // Step 2: Fetch courses created by this instructor
+        
         const coursesResult = await db.query(
             `SELECT * FROM created_courses WHERE instructor = $1;`,
             [instructorName]
@@ -235,7 +218,7 @@ app.get('/eternium', (req, res) => {
 
         const courses = coursesResult.rows;
 
-        // Step 3: Render the instructor home page with courses
+        
         res.render('instructor-homepage', { courses,instructorName,instructorEmail });
     } catch (error) {
         console.error('Error fetching instructor courses:', error);
@@ -264,27 +247,27 @@ app.get('/eternium', (req, res) => {
   app.get('/home', async (req, res) => {
     const userId = req.session.userId;
     
-    // Check if userId is available in session
+    
     if (!userId) {
-        return res.redirect('/login'); // Redirect to login if user is not authenticated
+        return res.redirect('/login'); 
     }
 
     try {
-        // Fetch user details
+      
         const result = await db.query('SELECT name, email FROM students WHERE id = $1', [userId]);
 
-        // Check if the user exists in the database
+        
         if (result.rows.length === 0) {
-            return res.status(404).send('User not found'); // Handle case where user is not found
+            return res.status(404).send('User not found'); 
         }
 
         const user = result.rows[0];
 
-        // Fetch courses
+        
         const coursesResult = await db.query('SELECT * FROM created_courses WHERE published = true');
         const courses = coursesResult.rows;
 
-        // Render home page with courses and user data
+        
         res.render('home', { courses, user });
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -399,22 +382,18 @@ app.get('/eternium', (req, res) => {
     passport.authenticate('google', { failureRedirect: '/login?error=invalid_credentials' }),
     async (req, res) => {
       try {
-        // Extract email from Google authentication response
+        
         const email = req.user.email; // Assuming req.user contains the email
   
-        // Fetch the student's ID from the database using email
-        
-  
-        // Redirect based on the user's role
         if (req.user.role === 'student') {
             const result = await db.query('SELECT id FROM students WHERE email = $1', [email]);
   
         if (result.rows.length === 0) {
-          // If the user is not found in the database, redirect to login
+          
           return res.redirect('/login?error=user_not_found');
         }
   
-        // Set userId in the session
+        
         req.session.userId = result.rows[0].id;
           return res.redirect('/home');
         } else if (req.user.role === 'instructor') {
@@ -425,7 +404,7 @@ app.get('/eternium', (req, res) => {
           return res.redirect('/login?error=user_not_found');
         }
   
-        // Set userId in the session
+      
         req.session.userId = result.rows[0].id;
           return res.redirect('/instructor-homepage');
         } else {
@@ -716,8 +695,6 @@ app.get('/getCartTotal', async (req, res) => {
         JOIN created_courses ON cart.course_id = created_courses.id
         WHERE cart.student_id = $1
       `, [userId]);
-  
-      // Convert total to paise (multiply by 100) and send as JSON
       const totalInPaise = rows[0].total ;
       res.json({ amount: totalInPaise });
     } catch (error) {
@@ -730,17 +707,15 @@ app.get('/getCartTotal', async (req, res) => {
   app.post('/updatePurchasedCourses', async (req, res) => {
     const userId = req.session.userId; // Current user
     const { paymentId } = req.body;
-  
-    // Fetch all courses in the cart
     const { rows: cartItems } = await db.query('SELECT course_id FROM cart WHERE student_id = $1', [userId]);
   
-    // Insert courses into courses_bought table
+    
     const insertQuery = 'INSERT INTO courses_bought (student_id, course_id) VALUES ($1, $2)';
     for (const { course_id } of cartItems) {
       await db.query(insertQuery, [userId, course_id]);
     }
   
-    // Clear cart after purchase
+    
     await db.query('DELETE FROM cart WHERE student_id = $1', [userId]);
   
     res.json({ success: true });
@@ -950,7 +925,7 @@ app.post('/remove-from-wishlist', async (req, res) => {
 
 async function calculatePercentageCompleted(studentId, courseId) {
     try {
-      // Query to get the total sections in the course
+      
       const totalSectionsQuery = `
         SELECT COUNT(*) AS total_sections
         FROM sections
@@ -959,7 +934,7 @@ async function calculatePercentageCompleted(studentId, courseId) {
       const totalSectionsResult = await db.query(totalSectionsQuery, [courseId]);
       const totalSections = totalSectionsResult.rows[0].total_sections;
   
-      // Query to get the number of sections completed by the student
+      
       const completedSectionsQuery = `
         SELECT COUNT(*) AS completed_sections
         FROM student_sections
@@ -968,7 +943,7 @@ async function calculatePercentageCompleted(studentId, courseId) {
       const completedSectionsResult = await db.query(completedSectionsQuery, [studentId, courseId]);
       const completedSections = completedSectionsResult.rows[0].completed_sections;
   
-      // Calculate percentage
+    
       return Math.round((completedSections / totalSections) * 100);
     } catch (error) {
       console.error("Error calculating percentage completed:", error);
@@ -976,13 +951,13 @@ async function calculatePercentageCompleted(studentId, courseId) {
     }
   }
   
-  // Route for displaying MyCourses and Recommendations
+  
   app.get('/my-courses', async (req, res) => {
     const studentId = req.session.userId;
     const result = await db.query('SELECT name, email FROM students WHERE id = $1', [studentId]);
     const user = result.rows[0];
     try {
-      // Query to fetch MyCourses
+      
       const myCoursesQuery = `
         SELECT c.id, c.title, c.thumbnail ,c.category, c.rating, c.level, c.instructor AS instructor
         FROM created_courses c
@@ -996,7 +971,7 @@ async function calculatePercentageCompleted(studentId, courseId) {
         return { ...course, percentageCompleted };
       }));
   
-      // Query to get the category of the last course bought by the student
+      
 const lastCourseCategoryQuery = `
 SELECT c.category
 FROM created_courses c
@@ -1032,7 +1007,7 @@ console.log("recommended ",recommendedCourses)
     }
   });
   
-  // Route for submitting rating
+
   app.post('/submit-rating/:courseId', async (req, res) => {
     const studentId = req.session.userId;
     const courseId = req.params.courseId;
@@ -1064,7 +1039,7 @@ app.get('/download-certificate/:course_id', async (req, res) => {
     }
 
     try {
-        // Fetch the student's name from the students table using student_id
+        
         const studentResult = await db.query('SELECT name FROM students WHERE id = $1', [studentId]);
 
         if (studentResult.rows.length === 0) {
@@ -1073,7 +1048,7 @@ app.get('/download-certificate/:course_id', async (req, res) => {
 
         const studentName = studentResult.rows[0].name;
 
-        // Fetch the course details using course_id
+        
         const courseResult = await db.query('SELECT title FROM created_courses WHERE id = $1', [courseId]);
 
         if (courseResult.rows.length === 0) {
@@ -1082,10 +1057,10 @@ app.get('/download-certificate/:course_id', async (req, res) => {
 
         const courseName = courseResult.rows[0].title;
 
-        // Get the current date for issue date
+        
         const issueDate = new Date().toLocaleDateString();
 
-        // Render the certificate page with fetched data
+        
         res.render('certificate', {
             studentName: studentName,
             courseName: courseName,
@@ -1103,7 +1078,7 @@ app.get('/performance', async (req, res) => {
     try {
         const instructorId = req.session.userId;
 
-        // Fetch instructor's name from the instructor table using instructorId
+        
         const instructorResult = await db.query(
             'SELECT name FROM instructor WHERE id = $1',
             [instructorId]
@@ -1114,7 +1089,7 @@ app.get('/performance', async (req, res) => {
             return res.status(404).send('Instructor not found');
         }
 
-        // 1. Calculate total revenue
+        
         const revenueResult = await db.query(
             `SELECT SUM(cc.price) AS total_revenue
              FROM created_courses AS cc
@@ -1124,7 +1099,7 @@ app.get('/performance', async (req, res) => {
         );
         const totalRevenue = revenueResult.rows[0]?.total_revenue || 0;
 
-        // 2. Calculate total enrollments
+        
         const enrollmentsResult = await db.query(
             `SELECT COUNT(*) AS total_enrollments
              FROM created_courses AS cc
@@ -1134,7 +1109,7 @@ app.get('/performance', async (req, res) => {
         );
         const totalEnrollments = enrollmentsResult.rows[0]?.total_enrollments || 0;
 
-        // 3. Calculate average rating
+    
         const ratingResult = await db.query(
             `SELECT AVG(cc.rating) AS average_rating
              FROM created_courses AS cc
@@ -1152,7 +1127,7 @@ app.get('/performance', async (req, res) => {
         );
         const activeCourses = activeCoursesResult.rows[0]?.active_courses || 0;
 
-        // 5. Course list with enrollment and revenue for each course
+        
         const courseListResult = await db.query(
             `SELECT cc.id, cc.title, COUNT(cb.course_id) AS enrollments, 
                     COALESCE(SUM(cc.price), 0) AS revenue, cc.rating
@@ -1185,7 +1160,7 @@ app.get('/chat/:courseId/:userId/:role', async (req, res) => {
     const { courseId, userId, role } = req.params;
   
     try {
-      // Fetch user name based on role
+      
       let userName;
       if (role === 'student') {
         const result = await db.query('SELECT name FROM students WHERE id = $1', [userId]);
@@ -1195,7 +1170,7 @@ app.get('/chat/:courseId/:userId/:role', async (req, res) => {
         userName = result.rows[0]?.name || 'Instructor';
       }
   
-      // Fetch messages related to courseId
+      
       const messages = await db.query(
         `SELECT message, date_time, user_id, role 
          FROM messages 
@@ -1217,22 +1192,22 @@ app.get('/chat/:courseId/:userId/:role', async (req, res) => {
     }
   });
 
-  // Assuming you have the necessary imports like express, pg for PostgreSQL, etc.
+  
 
 app.get('/success', async (req, res) => {
     const studentId = req.session.userId;  // Capture student ID from session
     const paymentId = req.query.payment_id;  // Capture Razorpay payment ID
   
     try {
-      // Fetch all course IDs where published = true from created_courses
+      
       const result = await db.query(
         'SELECT course_id FROM created_courses WHERE published = true'
       );
   
-      // Extract course IDs from the query result
+      
       const courseIds = result.rows.map(row => row.course_id);
   
-      // Insert into courses_bought for each course and the student
+      
       for (let courseId of courseIds) {
         await db.query(
           'INSERT INTO courses_bought (student_id, course_id) VALUES ($1, $2)',
@@ -1240,10 +1215,10 @@ app.get('/success', async (req, res) => {
         );
       }
   
-      // Optionally, you can handle updating the payment status in a payments table here
+      
   
-      // Redirect to a confirmation or success page after payment and database update
-      res.redirect('/payment-success'); // Or any success page
+      
+      res.redirect('/payment-success');
     } catch (error) {
       console.error('Error processing payment and saving courses:', error);
       res.status(500).send('Internal Server Error');
