@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&family=Righteous&display=swap');
+
+
+:root {
+    --background-image: url('/public/images/shieldlogo.jpeg');
+    --card-bg-color: rgba(16, 47, 78, 0.9);
+    --text-color: #ffffff;
+    --accent-color: #00c4cc;
+    --subtext-color: #cce7f2;
+    --highlight-color: #00e0ff;
+    --font-2-family: "Righteous";
+  }
+  
+  body {
+    margin: 0;
+    font-family: var(--font-2-family);
+    background-image: var(--background-image);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+  }
+  
+  .card {
+    background-color: var(--card-bg-color);
+    color: var(--text-color);
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    max-width: 400px;
+    width: 100%;
+  }
+  
+  h1 {
+    font-size: 1.8em;
+    color: var(--accent-color);
+    margin: 0 0 15px;
+  }
+  
+  p {
+    font-size: 1.1em;
+    color: var(--subtext-color);
+    margin: 10px 0;
+  }
+  
+  .payment-id {
+    font-weight: bold;
+    color: var(--highlight-color);
+  }
+  
