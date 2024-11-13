@@ -4,7 +4,6 @@
     <link rel="stylesheet" href="/styles/clsbb.css">
 </head>
 <body>
-    <%- include('partials/header') %>
 <div class="courselayout-y">
     <div class="side-bar-y">
         <a href="/cosab/<%= course.id %>" class="overview-y course-part-y">Overview</a>
@@ -51,6 +50,8 @@
         </div>
     </div>
 </div>
-<%- include('partials/footer') %>
+<%- include("partials/footer.ejs") %>
+<script src="/socket.io/socket.io.js"></script>
+<script src="main.js"></script>
 </body>
 </html>
