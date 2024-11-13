@@ -3,10 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <title>Payment Success</title>
+  <link rel="stylesheet" href="/public/styles/pay.css">
 </head>
 <body>
-  <h1>Payment Successful!</h1>
-  <p>Your payment ID: <%= paymentId %></p>
+  <div class="card">
+    <h1>Payment Successful!</h1>
+    <p>Your payment ID: <span class="payment-id"><%= paymentId %></span></p>
+  </div>
 </body>
 </html>
- 
