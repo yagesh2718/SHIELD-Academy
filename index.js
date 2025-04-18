@@ -90,14 +90,19 @@ const storage = multer.diskStorage({
     }
 });
 
-const db = new pg.Client({
-  user: "postgres",
-  host: "localhost",
-  database: "shield",
-  password: "yash1234",
-  port: 5432,
+const { Client } = require("pg");
+
+const db = new Client({
+  connectionString: process.env.postgresql://shield_0fzb_user:i0DPEYuX3AKnrEh8RDrwiTjik1Dbi34x@dpg-d00v7fk9c44c73cnd55g-a.virginia-postgres.render.com/shield_0fzb,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
-db.connect();
+
+db.connect()
+  .then(() => console.log("Database connected successfully"))
+  .catch(err => console.error("Database connection error", err));
+
 app.set('views', path.join(__dirname, 'views'));
 app.set("view engine" , "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
