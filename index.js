@@ -15,6 +15,8 @@ import { Server } from 'socket.io';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
+import pkg from 'pg';
+const { Client } = pkg;
 
 
 const server = createServer(app);
@@ -90,7 +92,6 @@ const storage = multer.diskStorage({
     }
 });
 
-import { Client } from 'pg';
 
 
 const db = new Client({
