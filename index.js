@@ -95,7 +95,7 @@ const storage = multer.diskStorage({
 
 
 const db = new Client({
-  connectionString: 'postgresql://shield_0fzb_user:i0DPEYuX3AKnrEh8RDrwiTjik1Dbi34x@dpg-d00v7fk9c44c73cnd55g-a.virginia-postgres.render.com/shield_0fzb',
+  connectionString: 'postgresql://shield_db_psl4_user:gZat9JQNnSWPf3kKYbe2IYnNiBlLzELA@dpg-d0uu5e24d50c73esqefg-a.oregon-postgres.render.com/shield_db_psl4',
   ssl: {
     rejectUnauthorized: false
   }
